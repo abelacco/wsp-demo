@@ -109,6 +109,19 @@ export const SPECIALITIES_LIST = [
       title: 'Lunes 28/01/2024 10:00 am',
     }
   ];
+// Pasos de la conversación
+
+export const STEPS = {
+  INIT: 0,
+  SEND_GREETINGS: 1,
+  PUT_DNI: 2,
+  INSERT_DATE: 3,
+  SELECT_PROVIDER: 4,
+  SELECT_PAYMENT: 5,
+  SUBMIT_VOUCHER: 6,
+  SEND_CONFIRMATION: 7,
+  INFO_FOR_NEW_PROVIDER: 8,
+};
 
 // MENSAJES Y ID DE MENSAJES INTERACTIVOS
 

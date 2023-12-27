@@ -28,7 +28,7 @@ export class MessageCartService {
     //Busca mensaje por número de cliente
     const currentMessage = await this.findOrCreateMessage(parsedMessage);
     // Si el mensaje no tiene step, se le asigna el step0 o se le suma 1
-    !currentMessage ? currentMessage.step = '0' : currentMessage.step = currentMessage.step + 1; 
+    !currentMessage ? currentMessage.step = 0 : currentMessage.step = currentMessage.step + 1; 
     // Se actualiza el mensaje en la base de datos con el step correspondiente
     const updateMessage = await this._db.updateMessage(currentMessage._id, currentMessage);
     // Se obtiene el template correspondiente al step actual

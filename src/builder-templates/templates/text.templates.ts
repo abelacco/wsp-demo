@@ -48,7 +48,7 @@ export class TextTemplates {
         };
     }
 
-    static dniConfirmationTemplate(phone: string, dniName: string) {
+    static dniConfirmationTemplate(phone: string) {
         return {
             messaging_product: 'whatsapp',
             to: phone,

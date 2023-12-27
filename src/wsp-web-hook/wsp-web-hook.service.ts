@@ -30,7 +30,7 @@ export class WspWebHookService {
   //   await this.sendMessages(message);
   // }
 
-  // return 'OK';
+  return 'OK';
 }
 
 validateWebHook(wspQueries: WspQueriesDto) {

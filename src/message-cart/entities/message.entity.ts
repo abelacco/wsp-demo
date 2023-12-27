@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
-import { PAYMENTSTATUS } from "src/common/dto/constants";
+import { PAYMENTSTATUS, STEPS } from "src/common/dto/constants";
 
 @Schema()
 export class Message extends Document {
@@ -56,11 +56,11 @@ export class Message extends Document {
     @Prop({
         // required: true,
         // index: true
-        type: String,
-        // enum: STEPS,
-        // default: STEPS.INIT
+        type: Number,
+        enum: STEPS,
+        default: STEPS.INIT
     })
-    step: string;
+    step: number;
 
     @Prop({
         // required: true,

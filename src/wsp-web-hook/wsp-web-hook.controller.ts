@@ -13,6 +13,7 @@ export class WspWebHookController {
   @HttpCode(200)
   async proccess(@Body() messageWSP: WspReceivedMessageDto) {
     try {
+      console.log('Received message from WSP');
       // llamamos al servicio para procesar el mensaje y retornamos OK al servidor de WSP para que no siga enviando el mensaje
       await this.wspWebHookService.proccessMessage(messageWSP);
       return 'OK';

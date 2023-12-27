@@ -4,34 +4,34 @@ import { TextTemplates } from './templates/text.templates';
 
 @Injectable()
 export class BuilderTemplatesService {
-    
 
-    buildMessageTemplate(messageUpdated: Message ): any {
+
+    buildMessageTemplate(messageUpdated: Message): any {
 
 
         switch (messageUpdated.step) {
-            case '0':
+            case 0:
                 return TextTemplates.greetings(messageUpdated.clientPhone);
-            case '1':
+            case 1:
                 return TextTemplates.askForDniTemplate(messageUpdated.clientPhone);
-            case '2':
-                return TextTemplates.dniConfirmationTemplate(messageUpdated.clientPhone, 'PENE');
-            case '3':
+            case 2:
+                return TextTemplates.dniConfirmationTemplate(messageUpdated.clientPhone);
+            case 3:
                 return TextTemplates.generateSpecialitiesList(messageUpdated.clientPhone);
-            case '4':
+            case 4:
                 return TextTemplates.generateDoctorList(messageUpdated.clientPhone);
-            case '5':
+            case 5:
                 return TextTemplates.selectHoursOptions(messageUpdated.clientPhone);
-            case '6':
+            case 6:
                 return TextTemplates.generateHoursAvaible(messageUpdated.clientPhone);
-            case '7':
+            case 7:
                 return TextTemplates.generatePaymentOptions(messageUpdated.clientPhone);
-            case '8':
+            case 8:
                 return TextTemplates.generateTextAccount(messageUpdated.clientPhone);
-            case '9':
+            case 9:
                 return TextTemplates.verifyingVoucherTemplate(messageUpdated.clientPhone);
             default:
                 return TextTemplates.patientConfirmationPayment(messageUpdated.clientPhone);
-    }
+        }
     }
 }

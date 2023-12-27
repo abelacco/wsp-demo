@@ -1,4 +1,4 @@
-import { IsDate, IsOptional, IsString } from "class-validator";
+import { IsDate, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateMessageDto {
     @IsString()
@@ -21,9 +21,9 @@ export class CreateMessageDto {
     @IsOptional()
     date: Date;
     
-    @IsString()
+    @IsNumber()
     @IsOptional()
-    step: string;
+    step: number;
     
     @IsString()
     @IsOptional()
