@@ -15,7 +15,7 @@ export class SenderService {
           },
         },
       );
-      console.log('prueba', prueba);
+      console.log('prueba', prueba.status);
 
     } catch (error) {
       console.log(error.response.data.error.message);

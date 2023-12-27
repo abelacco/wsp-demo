@@ -1,4 +1,4 @@
-import { SCHUDULE_LIST, SPECIALITIES_LIST, TITLE_INT_BTN } from "src/common/dto/constants";
+import { DOCTOR_LIST, SCHUDULE_LIST, SPECIALITIES_LIST, TITLE_INT_BTN } from "src/common/dto/constants";
 
 
 export class TextTemplates {
@@ -132,7 +132,7 @@ export class TextTemplates {
                     sections: [
                         {
                             title: 'Doctores',
-                            rows: SPECIALITIES_LIST
+                            rows: DOCTOR_LIST
                         },
                     ],
                 },
