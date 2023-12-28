@@ -7,7 +7,6 @@ import { MongoDbService } from './db/mongodb.service';
 import { IMessageDao } from './db/messageDao';
 import { IParsedMessage } from './entities/messageParsed';
 import { WspReceivedMessageDto } from 'src/common/dto';
-import { get } from 'http';
 
 
 @Injectable()
@@ -56,6 +55,7 @@ export class MessageCartService {
       type: '',
       content: {}
   }
+  console.log( messageDto.entry[0].changes[0].value)
   const contact = messageDto.entry[0].changes[0].value.contacts[0];
   const message = messageDto.entry[0].changes[0].value.messages[0];
 
