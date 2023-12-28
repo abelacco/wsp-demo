@@ -60,7 +60,7 @@ export class MessageCartService {
       content: {}
   }
   console.log( messageDto.entry[0].changes[0].value)
-  if(messageDto.entry[0].changes[0].value?.statuses[0].status) {
+  if(messageDto.entry[0].changes[0].value?.statuses && messageDto.entry[0].changes[0].value?.statuses[0].status) {
       return 'OKNO'
   }
   const contact = messageDto.entry[0].changes[0].value.contacts[0];
