@@ -260,7 +260,7 @@ export class TextTemplates {
             to: phone,
             type: 'text',
             text: {
-                body: 'Estamos verificando tu comprobante de pago, un minuto por favor! 🙌',
+                body: 'Estamos verificando tu comprobante de pago, un minuto por favor! 🙌\n\n**ESTO ES UNA DEMO, ESCRIBIR 1 PARA SEGUIR**',
             },
         };
     }
