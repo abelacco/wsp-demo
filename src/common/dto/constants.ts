@@ -82,27 +82,27 @@ export const SPECIALITIES_LIST = [
   export const SCHUDULE_LIST = [
     {
       id: '1',
-      title: ' 21/01/2024 10:00 am',
+      title: '21/01/2024 10:00 am',
     },
     {
       id: '2',
-      title: ' 21/01/2024 11:00 am',
+      title: '21/01/2024 11:00 am',
     },
     {
       id: '3',
-      title: ' 21/01/2024 12:00 am',
+      title: '21/01/2024 12:00 am',
     },
     {
       id: '4',
-      title: ' 22/01/2024 10:00 am',
+      title: '22/01/2024 10:00 am',
     },
     {
       id: '5',
-      title: ' 25/01/2024 10:00 am',  
+      title: '25/01/2024 10:00 am',  
     },
     {
       id: '6',
-      title: ' 25/01/2024 11:00 am',
+      title: '25/01/2024 11:00 am',
     },
     {
       id: '7',

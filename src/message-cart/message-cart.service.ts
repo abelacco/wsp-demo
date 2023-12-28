@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { SenderService } from 'src/sender/sender.service';
 import { Message } from './entities/message.entity';
 import { BuilderTemplatesService } from 'src/builder-templates/builder-templates.service';
-import { INTERACTIVE_REPLIES_TYPES, PAYMENTSTATUS, WSP_MESSAGE_TYPES } from 'src/common/dto/constants';
+import { INTERACTIVE_REPLIES_TYPES, PAYMENTSTATUS, STEPS, WSP_MESSAGE_TYPES } from 'src/common/dto/constants';
 import { MongoDbService } from './db/mongodb.service';
 import { IMessageDao } from './db/messageDao';
 import { IParsedMessage } from './entities/messageParsed';
 import { WspReceivedMessageDto } from 'src/common/dto';
+import { get } from 'http';
 
 
 @Injectable()
@@ -27,14 +28,24 @@ export class MessageCartService {
     const parsedMessage = await this.messageDestructurer(entryMessage);
     //Busca mensaje por número de cliente
     const currentMessage = await this.findOrCreateMessage(parsedMessage);
-    // Si el mensaje no tiene step, se le asigna el step0 o se le suma 1
-    currentMessage.step === 0 ? currentMessage.step = 0 : currentMessage.step++;
+    // Resetea el step del mensaje
+    parsedMessage.content === 'reset' ? currentMessage.step = 0 : null;
+    // Se le suma 1 al step del mensaje
+    currentMessage.step++;
+    // Si el mensaje es el ultimo agregar el status de pago
+    currentMessage.step === 11 ? currentMessage.status = PAYMENTSTATUS.ACCEPTED : null;
     // Se actualiza el mensaje en la base de datos con el step correspondiente
     const updateMessage = await this._db.updateMessage(currentMessage._id, currentMessage);
     // Se obtiene el template correspondiente al step actual
     const getTemplate = this.builderTemplate.buildMessageTemplate(updateMessage);
     // Se envia el mensaje al cliente
-    this.senderService.sendMessages(getTemplate);
+    if(getTemplate instanceof Array) {
+      for (const message of getTemplate) {
+        await this.senderService.sendMessages(message);
+      }
+    } else {
+      await this.senderService.sendMessages(getTemplate);
+    }
     return 'OK';
   }
 

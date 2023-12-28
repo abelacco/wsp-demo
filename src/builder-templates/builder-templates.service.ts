@@ -8,7 +8,7 @@ export class BuilderTemplatesService {
 
     buildMessageTemplate(messageUpdated: Message): any {
 
-
+        messageUpdated.step = messageUpdated.step - 1;
         switch (messageUpdated.step) {
             case 0:
                 return TextTemplates.greetings(messageUpdated.clientPhone);
@@ -30,8 +30,16 @@ export class BuilderTemplatesService {
                 return TextTemplates.generateTextAccount(messageUpdated.clientPhone);
             case 9:
                 return TextTemplates.verifyingVoucherTemplate(messageUpdated.clientPhone);
+            case 10:
+                return [
+                    TextTemplates.patientConfirmationPayment(messageUpdated.clientPhone),
+                    TextTemplates.invoiceTemplate(messageUpdated.clientPhone),
+                    TextTemplates.reminder(messageUpdated.clientPhone),
+                     TextTemplates.recetaMedica(messageUpdated.clientPhone)
+
+                ]
             default:
-                return TextTemplates.patientConfirmationPayment(messageUpdated.clientPhone);
+                return TextTemplates.greetings(messageUpdated.clientPhone);
         }
     }
 }

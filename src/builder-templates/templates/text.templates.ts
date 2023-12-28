@@ -232,7 +232,7 @@ export class TextTemplates {
                         {
                             type: 'reply',
                             reply: {
-                              id: 'UNIQUE_BUTTON_ID_2',
+                              id: 'UNIQUE_BUTTON_ID_3',
                               title: TITLE_INT_BTN.PAYMENTS_OPTIONS[2],
                             },
                           }
@@ -411,10 +411,17 @@ export class TextTemplates {
         };
     }
 
-    static patientConfirmationPayment(appointment: any) {
-        const { code, date, fee, patientId, doctorId } = appointment;
-        const { name: docName, speciality, phone: doctorPhone, office } = doctorId;
-        const { phone: patientPhone, name: patientName } = patientId;
+    static patientConfirmationPayment(patientPhone: any) {
+        // const { code, date, fee, patientId, doctorId } = appointment;
+        // const { name: docName, speciality, phone: doctorPhone, office } = doctorId;
+        // const { phone: patientPhone, name: patientName } = patientId;
+        const docName = 'Juan Perez';
+        const speciality = 'Nutrición';
+        const doctorPhone = '51999999999';
+        const office = '101';
+        const fee = '50';
+        const patientName = 'Roberto Suarez';
+        const code = '123456';
         const dateString = '21/01/2021 10:00 am';
         return {
             messaging_product: 'whatsapp',
@@ -425,14 +432,51 @@ export class TextTemplates {
         Paciente: ${patientName}
         Especialidad: ${speciality}
         Fecha y Hora de la cita: ${dateString}
-        Modalidad: 
         Consultorio: ${office}
         Costo de la cita: S/${fee}
         Celular Doctor: ${doctorPhone}
-        Identificación: ${code} \n\nMuchas gracias por reservar con Doctor Qali💯 \n\n Para mayor información acerca de la cita deberá contactar directamente con el doctor al siguiente número ${doctorPhone}`,
+        Identificación: ${code} \n\nMuchas gracias por reservar con Caritas Felices💯 \n\n Para mayor información acerca de la cita escribir al ${doctorPhone}`,
             },
         };
     }
+
+    
+    static invoiceTemplate(phone: string) {
+        return {
+            messaging_product: 'whatsapp',
+            to: phone,
+            type: 'document',
+            document: {
+                link: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+                filename: 'Boleta.pdf',
+            },
+
+        };
+    }
+    static reminder(phone: string) {
+        return {
+            messaging_product: 'whatsapp',
+            to: phone,
+            type: 'text',
+            text: {
+                body: 'Recuerda que tienes una cita para el día Lunes 21/01/24 a las 10:00 p.m. con el Dr. Juan Perez en el consultorio 101. \n\nPara mayor información acerca de la cita escribir al 999999999',
+            },
+        };
+    }
+
+    static recetaMedica(phone: string) {
+        return {
+            messaging_product: 'whatsapp',
+            to: phone,
+            type: 'document',
+            document: {
+                link: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+                filename: 'Receta Medica.pdf',
+            },
+        };
+    }
+
+    
 
 
 
