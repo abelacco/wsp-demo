@@ -344,7 +344,16 @@ export class TextTemplates {
     }
 
 
-
+    static AboutOurServices(phone: string) {
+        return {
+            messaging_product: 'whatsapp',
+            to: phone,
+            type: 'text',
+            text: {
+                body: '🙌\n\n**Gracias por participar en esta demostración. Este fue un ejemplo de cómo nuestro bot puede funcionar, basado en información de nuestras reuniones con los equipos de desarrollo y marketing. Si estás interesado en saber más sobre nuestros servicios y obtener una cotización personalizada, no dudes en contactarnos. ¡Estamos aquí para ayudarte!**',
+            },
+        };
+    }
 
 
 
