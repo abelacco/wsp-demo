@@ -12,7 +12,7 @@ export class TextTemplates {
             interactive: {
                 type: 'button',
                 body: {
-                    text: `¡Hola soy Caro, yo te ayudaré a encontrar un especialista en solo unos minutos 👩‍⚕️🚀  \n\n¿Cómo podemos ayudarte hoy?\n\n**ESTO ES UNA DEMO LOS MENSAJES SON SECUENCIALES Y LA INFORMACIÓN BRINDAD NO ES REAL**
+                    text: `¡Hola soy Caro, yo te ayudaré a encontrar un especialista en solo unos minutos 👩‍⚕️🚀  \n\n¿Cómo podemos ayudarte hoy?\n\n**ESTO ES UNA DEMO CON FINES DE PRUEBAS Y LA INFORMACIÓN BRINDADA NO ES REAL, DESARROLLADO POR FAMILYBOTS**
               `,
                 },
                 action: {
@@ -28,7 +28,14 @@ export class TextTemplates {
                             type: 'reply',
                             reply: {
                                 id: 'specialist_button_id',
-                                title: 'Mayor información',
+                                title: '🔬 Laboratorio'
+                            },
+                        },
+                        {
+                            type: 'reply',
+                            reply: {
+                                id: 'consulta_button_id',
+                                title: '❓Otra consulta'
                             },
                         },
                     ],
@@ -43,7 +50,7 @@ export class TextTemplates {
             to: phone,
             type: 'text',
             text: {
-                body: '¡Genial! Por favor, ingresa tu DNI para registrarte ✅',
+                body: '¡Genial! Por favor, ingresa tu DNI para registrarte ✅\n\n**ESTO ES UNA DEMO , ESCRIBIR 1 PARA SEGUIR**',
             },
         };
     }
