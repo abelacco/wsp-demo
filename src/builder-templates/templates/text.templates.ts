@@ -12,7 +12,7 @@ export class TextTemplates {
             interactive: {
                 type: 'button',
                 body: {
-                    text: `¡Hola soy Caro, yo te ayudaré a encontrar un especialista en solo unos minutos 👩‍⚕️🚀  \n\n¿Cómo podemos ayudarte hoy?\n\n**ESTO ES UNA DEMO CON FINES DE PRUEBAS Y LA INFORMACIÓN BRINDADA NO ES REAL, DESARROLLADO POR FAMILYBOTS**
+                    text: `¡Hola soy Carol, yo te ayudaré a encontrar un especialista en solo unos minutos 👩‍⚕️🚀  \n\n¿Cómo podemos ayudarte hoy?\n\n**ESTO ES UNA DEMO CON FINES DE PRUEBAS Y LA INFORMACIÓN BRINDADA NO ES REAL, DESARROLLADO POR FAMILYBOTS**
               `,
                 },
                 action: {
