@@ -12,7 +12,7 @@ export class TextTemplates {
             interactive: {
                 type: 'button',
                 body: {
-                    text: `¡Bienvenid@ a Doctor Qali! 🌟 \n\n Encuentra un médico en solo unos minutos👩‍⚕️🚀  \n\n¿Cómo podemos ayudarte hoy?\n\n**ESTO ES UNA DEMO LOS MENSAJES SON SECUENCIALES Y LA INFORMACIÓN BRINDAD NO ES REAL**
+                    text: `¡Hola soy Caro, yo te ayudaré a encontrar un especialista en solo unos minutos 👩‍⚕️🚀  \n\n¿Cómo podemos ayudarte hoy?\n\n**ESTO ES UNA DEMO LOS MENSAJES SON SECUENCIALES Y LA INFORMACIÓN BRINDAD NO ES REAL**
               `,
                 },
                 action: {
@@ -148,7 +148,7 @@ export class TextTemplates {
             interactive: {
                 type: 'button',
                 body: {
-                    text: `Puedes buscar buscar disponibilidad por lo más pronto o por un día específico`,
+                    text: `Puedes buscar  disponibilidad por lo más pronto o por un día específico`,
                 },
                 action: {
                     buttons: [
