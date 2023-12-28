@@ -25,6 +25,10 @@ export class MessageCartService {
   async proccessMessage(entryMessage: WspReceivedMessageDto) {
     // Deestructuración del mensaje de entrada
     const parsedMessage = await this.messageDestructurer(entryMessage);
+    //Si es otro tipo de mensaje 
+    if(parsedMessage === 'OKNO') {
+      return 'OK'
+    }
     //Busca mensaje por número de cliente
     const currentMessage = await this.findOrCreateMessage(parsedMessage);
     // Resetea el step del mensaje
@@ -56,6 +60,9 @@ export class MessageCartService {
       content: {}
   }
   console.log( messageDto.entry[0].changes[0].value)
+  if(messageDto.entry[0].changes[0].value.statuses[0].status) {
+      return 'OKNO'
+  }
   const contact = messageDto.entry[0].changes[0].value.contacts[0];
   const message = messageDto.entry[0].changes[0].value.messages[0];
 

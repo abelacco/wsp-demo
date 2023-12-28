@@ -4,6 +4,9 @@ export interface WspReceivedMessageDto {
       value: {
         contacts: Array<IContact>;
         messages: Array<IMessage>;
+        statuses: [{
+          status: string;
+        }]
       };
     }>;
   }>;
