@@ -17,13 +17,14 @@ export class BuilderTemplatesService {
             case 2:
                 return TextTemplates.dniConfirmationTemplate(messageUpdated.clientPhone);
             case 3:
-                return TextTemplates.generateSpecialitiesList(messageUpdated.clientPhone);
+                return [TextTemplates.planesNutricionales(messageUpdated.clientPhone),
+                 TextTemplates.confirmAntesDeEscogerPlan(messageUpdated.clientPhone)];
             case 4:
-                return TextTemplates.generateDoctorList(messageUpdated.clientPhone);
+                return TextTemplates.cupoDisponible(messageUpdated.clientPhone);
             case 5:
-                return TextTemplates.selectHoursOptions(messageUpdated.clientPhone);
+                return TextTemplates.listaPlanes(messageUpdated.clientPhone);
             case 6:
-                return TextTemplates.generateHoursAvaible(messageUpdated.clientPhone);
+                return TextTemplates.tipoPlan(messageUpdated.clientPhone);
             case 7:
                 return TextTemplates.generatePaymentOptions(messageUpdated.clientPhone);
             case 8:
@@ -31,15 +32,9 @@ export class BuilderTemplatesService {
             case 9:
                 return TextTemplates.verifyingVoucherTemplate(messageUpdated.clientPhone);
             case 10:
-                return [
-                    TextTemplates.patientConfirmationPayment(messageUpdated.clientPhone),
-                    TextTemplates.invoiceTemplate(messageUpdated.clientPhone),
-                    TextTemplates.reminder(messageUpdated.clientPhone),
-                     TextTemplates.recetaMedica(messageUpdated.clientPhone)
-
-                ]
+                return TextTemplates.verifyingVoucherTemplate(messageUpdated.clientPhone);
             default:
-                return TextTemplates.greetings(messageUpdated.clientPhone);
+                return TextTemplates.AboutOurServices(messageUpdated.clientPhone);
         }
     }
 }

@@ -12,48 +12,23 @@ export const INTERACTIVE_REPLIES_TYPES = {
 };
 
 //DATA PROPIA DE LA APLICACION
-export const SPECIALITIES_LIST = [
+export const MENU = [
     {
       id: '1',
-      title: 'Nutrición',
+      title: 'ℹ️ Información sobre planes',
     },
     {
       id: '2',
-      title: 'Odontología',
+      title: '♻️ Renovar mi plan',
     },
     {
       id: '3',
-      title: 'Oftalmología',
+      title: '🗓 Adquiere tu plan',
     },
     {
       id: '4',
-      title: 'Ginecología',
-    },
-    {
-      id: '5',
-      title: 'Medicina General',  
-    },
-    {
-        id: '6',
-        title: 'Pediatría',
-    },
-    {
-        id: '7',
-        title: 'Psicología',
-    },
-    {
-        id: '8',
-        title: 'Cardiología',
-    },
-    {
-        id: '9',
-        title: 'Dermatología',
-    },
-    {
-        id: '10',
-        title: 'Ver más',
-    },
-   
+      title: '📚 Recetarios y Guías',
+    }
   ];
 
   export const DOCTOR_LIST = [
