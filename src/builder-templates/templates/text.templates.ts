@@ -12,7 +12,7 @@ export class TextTemplates {
             interactive: {
                 type: 'button',
                 body: {
-                    text: `¡Hola soy Carol tu asistente Bot de clínica carita feliz 👩‍⚕️🚀  \n\n¿Cómo podemos ayudarte hoy?\n\n**ESTO ES UNA DEMO CON FINES DE PRUEBAS Y LA INFORMACIÓN BRINDADA NO ES REAL, DESARROLLADO POR FAMILYBOTS**
+                    text: `¡Hola soy tu asistente virtual de la clínica Santa Emilia 👩‍⚕️🚀  \n\n¿Cómo podemos ayudarte hoy?\n\n**ESTO ES UNA DEMO CON FINES DE PRUEBAS Y LA INFORMACIÓN BRINDADA NO ES REAL, DESARROLLADO POR FAMILYBOTS**
               `,
                 },
                 action: {
@@ -255,7 +255,7 @@ export class TextTemplates {
             to: phone,
             type: 'text',
             text: {
-                body: '☝️ Para terminar, por favor realizar el yape al 99999999 a nombre de Caritas Felices \n\n**ESTO ES UNA DEMO, ESCRIBIR 1 PARA SEGUIR**',
+                body: '☝️ Para terminar, por favor realizar el yape al 99999999 a nombre de Clínica Santa Emilia \n\n**ESTO ES UNA DEMO, ESCRIBIR 1 PARA SEGUIR**',
             },
         };
     }
@@ -451,7 +451,7 @@ export class TextTemplates {
         Consultorio: ${office}
         Costo de la cita: S/${fee}
         Celular Doctor: ${doctorPhone}
-        Identificación: ${code} \n\nMuchas gracias por reservar con Caritas Felices💯 \n\n Para mayor información acerca de la cita escribir al ${doctorPhone}`,
+        Identificación: ${code} \n\nMuchas gracias por reservar con Clínica Santa Emilia💯 \n\n Para mayor información acerca de la cita escribir al ${doctorPhone}`,
             },
         };
     }
