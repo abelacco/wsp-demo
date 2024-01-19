@@ -13,12 +13,12 @@ export class TextTemplates {
             type: 'interactive',
             interactive: {
                 type: 'list',
-                header: {
-                    type: 'text',
-                    text: 'Opciones📋',
-                },
+                // header: {
+                //     type: 'text',
+                //     text: 'Opciones',
+                // },
                 body: {
-                    text: 'Body: Hola, ¿qué tal? ☺️n\n ¿Cuéntanos, cómo podemos ayudarte? ✨',
+                    text: 'Hola, ¿qué tal? \n\n ¿Cuéntanos, cómo podemos ayudarte? ✨',
                 },
                 footer: {
                     text: 'Escribir ayuda para atención personalizada',
@@ -225,7 +225,7 @@ export class TextTemplates {
                             type: 'reply',
                             reply: {
                                 id: 'Menú Semanal',
-                                title: 'APLV 🤱',
+                                title: 'Menú Semanal',
                             },
                         },
                         {
@@ -286,7 +286,7 @@ export class TextTemplates {
             to: phone,
             type: 'text',
             text: {
-                body: '☝️ Para terminar, por favor realizar el yape al 99999999 a nombre de Caritas Felices \n\n**ESTO ES UNA DEMO, ESCRIBIR 1 PARA SEGUIR**',
+                body: '☝️ Para terminar, por favor realizar el yape al 99999999 a nombre de Diana Otero \n\n**ESTO ES UNA DEMO, ESCRIBIR 1 PARA SEGUIR**',
             },
         };
     }
@@ -588,7 +588,7 @@ export class TextTemplates {
         const docName = 'Juan Perez';
         const speciality = 'Nutrición';
         const doctorPhone = '51999999999';
-        const office = '101';
+        const plan = 'Mi Mejor Versión - Intercambio';
         const fee = '50';
         const patientName = 'Roberto Suarez';
         const code = '123456';
@@ -598,14 +598,9 @@ export class TextTemplates {
             to: patientPhone,
             type: 'text',
             text: {
-                body: `✅ ¡Gracias por reservar con el Dr. ${docName}! 🧑‍⚕️ \n\nA continuación, los datos de tu cita. 🙌
-        Paciente: ${patientName}
-        Especialidad: ${speciality}
-        Fecha y Hora de la cita: ${dateString}
-        Consultorio: ${office}
-        Costo de la cita: S/${fee}
-        Celular Doctor: ${doctorPhone}
-        Identificación: ${code} \n\nMuchas gracias por reservar con Caritas Felices💯 \n\n Para mayor información acerca de la cita escribir al ${doctorPhone}`,
+                body: `
+                ¡Gracias por confiar en nuestro equipo!! 🧑‍⚕️A continuación, los datos de tu plan 🙌 \n\nEn breves te está escribiendo tu asesor personal para ayudarte en cualquier duda que tengas 🩵  
+                \n\nPaciente: ${patientName}\n\nFecha y Hora de la cita: ${dateString}\n\nPlan: ${plan}\n\nLink Formulario: 'https:/demo.com'\n\nCosto del plan: S/${fee}\n\nIdentificación: ${code} \n\nMuchas gracias por adquirir un plan con Diana Otero Nutrición💯 \n\n Para mayor información acerca de la cita escribir al ${doctorPhone}`,
             },
         };
     }

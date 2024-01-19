@@ -15,19 +15,19 @@ export const INTERACTIVE_REPLIES_TYPES = {
 export const MENU = [
     {
       id: '1',
-      title: 'ℹ️ Información sobre planes',
+      title: 'Información planes',
     },
     {
       id: '2',
-      title: '♻️ Renovar mi plan',
+      title: 'Renovar mi plan',
     },
     {
       id: '3',
-      title: '🗓 Adquiere tu plan',
+      title: 'Adquiere tu plan',
     },
     {
       id: '4',
-      title: '📚 Recetarios y Guías',
+      title: 'Recetarios y Guías',
     }
   ];
 

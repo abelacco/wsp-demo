@@ -32,9 +32,12 @@ export class BuilderTemplatesService {
             case 9:
                 return TextTemplates.verifyingVoucherTemplate(messageUpdated.clientPhone);
             case 10:
-                return TextTemplates.verifyingVoucherTemplate(messageUpdated.clientPhone);
-            default:
+                return [TextTemplates.patientConfirmationPayment(messageUpdated.clientPhone),
+                        TextTemplates.AboutOurServices(messageUpdated.clientPhone)];
+            case 11:
                 return TextTemplates.AboutOurServices(messageUpdated.clientPhone);
+            default:
+                return TextTemplates.greetings(messageUpdated.clientPhone);
         }
     }
 }
