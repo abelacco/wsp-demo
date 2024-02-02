@@ -437,8 +437,7 @@ export class TextTemplates {
             to: patientPhone,
             type: 'text',
             text: {
-                body: `✅ ¡Gracias por reservar con nosotros! 🧑😀 \n\nA continuación, los datos de tu reserva. 🙌
-        Cliente: ${patientName}
+                body: `✅ ¡Gracias por reservar con nosotros! 🧑😀 \n\nA continuación, los datos de tu reserva. \n🙌 Cliente: ${patientName}
         Fecha y Hora de la reserva: ${dateString}
         Direccion: ${office}
         Costo de la reserva: S/${fee}
