@@ -36,7 +36,7 @@ export class MessageCartService {
     // Se le suma 1 al step del mensaje
     currentMessage.step++;
     // Si el mensaje es el ultimo agregar el status de pago
-    currentMessage.step === 11 ? currentMessage.status = PAYMENTSTATUS.ACCEPTED : null;
+    currentMessage.step === 8 ? currentMessage.status = PAYMENTSTATUS.ACCEPTED : null;
     // Se actualiza el mensaje en la base de datos con el step correspondiente
     const updateMessage = await this._db.updateMessage(currentMessage._id, currentMessage);
     // Se obtiene el template correspondiente al step actual

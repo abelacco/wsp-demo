@@ -12,7 +12,7 @@ export class TextTemplates {
             interactive: {
                 type: 'button',
                 body: {
-                    text: `¡Hola soy tu asistente virtual de la clínica Santa Emilia 👩‍⚕️🚀  \n\n¿Cómo podemos ayudarte hoy?\n\n**ESTO ES UNA DEMO CON FINES DE PRUEBAS Y LA INFORMACIÓN BRINDADA NO ES REAL, DESARROLLADO POR FAMILYBOTS**
+                    text: `¡Hola pelotero , cuando le quieres meter arto chocolate? 👩‍⚕️🚀\n\n**ESTO ES UNA DEMO CON FINES DE PRUEBAS Y LA INFORMACIÓN BRINDADA NO ES REAL, DESARROLLADO POR FAMILYBOTS**
               `,
                 },
                 action: {
@@ -21,21 +21,14 @@ export class TextTemplates {
                             type: 'reply',
                             reply: {
                                 id: 'see_specialities_button_id',
-                                title: '📆 Agendar una cita',
-                            },
-                        },
-                        {
-                            type: 'reply',
-                            reply: {
-                                id: 'specialist_button_id',
-                                title: '🔬 Laboratorio'
+                                title: 'Lo más pronto 🕐',
                             },
                         },
                         {
                             type: 'reply',
                             reply: {
                                 id: 'consulta_button_id',
-                                title: '❓Otra consulta'
+                                title: 'Por día 📅'
                             },
                         },
                     ],
@@ -63,7 +56,7 @@ export class TextTemplates {
             interactive: {
                 type: 'button',
                 body: {
-                    text: `¿Eres ROBERTO DIONISIO SUAREZ PULACHE?`,
+                    text: `¿Eres ANDRÉS CONDOR MENDOZA?`,
                 },
                 action: {
                     buttons: [
@@ -255,7 +248,7 @@ export class TextTemplates {
             to: phone,
             type: 'text',
             text: {
-                body: '☝️ Para terminar, por favor realizar el yape al 99999999 a nombre de Clínica Santa Emilia \n\n**ESTO ES UNA DEMO, ESCRIBIR 1 PARA SEGUIR**',
+                body: '☝️ Para terminar, por favor realizar el yape al 99999999 a nombre de Canchita FC  \n\n**ESTO ES UNA DEMO, ESCRIBIR 1 PARA SEGUIR**',
             },
         };
     }
@@ -444,14 +437,13 @@ export class TextTemplates {
             to: patientPhone,
             type: 'text',
             text: {
-                body: `✅ ¡Gracias por reservar con el Dr. ${docName}! 🧑‍⚕️ \n\nA continuación, los datos de tu cita. 🙌
-        Paciente: ${patientName}
-        Especialidad: ${speciality}
-        Fecha y Hora de la cita: ${dateString}
-        Consultorio: ${office}
-        Costo de la cita: S/${fee}
-        Celular Doctor: ${doctorPhone}
-        Identificación: ${code} \n\nMuchas gracias por reservar con Clínica Santa Emilia💯 \n\n Para mayor información acerca de la cita escribir al ${doctorPhone}`,
+                body: `✅ ¡Gracias por reservar con nosotros! 🧑‍⚕️ \n\nA continuación, los datos de tu cita. 🙌
+        Cliente: ${patientName}
+        Fecha y Hora de la reserva: ${dateString}
+        Direccion: ${office}
+        Costo de la reserva: S/${fee}
+        Informer: ${doctorPhone}
+        Identificación: ${code} \n\nMuchas gracias por reservar con Peloteros \n\n Para mayor información acerca de la reserva escribir al ${doctorPhone}`,
             },
         };
     }
