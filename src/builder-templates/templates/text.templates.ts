@@ -12,7 +12,7 @@ export class TextTemplates {
             interactive: {
                 type: 'button',
                 body: {
-                    text: `¡Hola pelotero , cuando le quieres meter arto chocolate? 👩‍⚕️🚀\n\n**ESTO ES UNA DEMO CON FINES DE PRUEBAS Y LA INFORMACIÓN BRINDADA NO ES REAL, DESARROLLADO POR FAMILYBOTS**
+                    text: `⚽¡Hola pelotero , cuando le quieres meter arto chocolate🍫🍫? ⚽\n\n**ESTO ES UNA DEMO CON FINES DE PRUEBAS Y LA INFORMACIÓN BRINDADA NO ES REAL, DESARROLLADO POR FAMILYBOTS**
               `,
                 },
                 action: {
@@ -71,7 +71,7 @@ export class TextTemplates {
                             type: 'reply',
                             reply: {
                                 id: 'retry_dni',
-                                title: 'Volver a intentar 👀',
+                                title: 'Volver a intentar 🟥',
                             },
                         },
                     ],
@@ -248,7 +248,7 @@ export class TextTemplates {
             to: phone,
             type: 'text',
             text: {
-                body: '☝️ Para terminar, por favor realizar el yape al 99999999 a nombre de Canchita FC  \n\n**ESTO ES UNA DEMO, ESCRIBIR 1 PARA SEGUIR**',
+                body: '☝️ Para terminar, por favor realizar el yape al 99999999 a nombre de Canchita FC 🥅 \n\n**ESTO ES UNA DEMO, ESCRIBIR 1 PARA SEGUIR**',
             },
         };
     }
@@ -260,7 +260,7 @@ export class TextTemplates {
             to: phone,
             type: 'text',
             text: {
-                body: 'Estamos verificando tu comprobante de pago, un minuto por favor! 🙌\n\n**ESTO ES UNA DEMO, ESCRIBIR 1 PARA SEGUIR**',
+                body: 'Estamos verificando tu comprobante de pago, un minuto por favor⌚! 🙌\n\n**ESTO ES UNA DEMO, ESCRIBIR 1 PARA SEGUIR**',
             },
         };
     }
@@ -437,13 +437,13 @@ export class TextTemplates {
             to: patientPhone,
             type: 'text',
             text: {
-                body: `✅ ¡Gracias por reservar con nosotros! 🧑‍⚕️ \n\nA continuación, los datos de tu cita. 🙌
+                body: `✅ ¡Gracias por reservar con nosotros! 🧑😀 \n\nA continuación, los datos de tu reserva. 🙌
         Cliente: ${patientName}
         Fecha y Hora de la reserva: ${dateString}
         Direccion: ${office}
         Costo de la reserva: S/${fee}
         Informer: ${doctorPhone}
-        Identificación: ${code} \n\nMuchas gracias por reservar con Peloteros \n\n Para mayor información acerca de la reserva escribir al ${doctorPhone}`,
+        Identificación: ${code} \n\nMuchas gracias por reservar con Peloteros FC\n\n Para mayor información acerca de la reserva escribir al ${doctorPhone}`,
             },
         };
     }
