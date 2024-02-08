@@ -140,7 +140,7 @@ export class FlowsService {
     // const message2 = 'Una vez realizado el pago, envía el comprobante de pago para continuar con el proceso';
     // const template2 = this.builderTemplate.buildTextMessage(clientPhone,message2);
     // await this.senderService.sendMessages(template2);
-    ctx.step = STEPS.CONFIRM_PAYMENT;
+    ctx.step = STEPS.SUBMIT_VOUCHER;
     await this.ctxService.updateCtx(ctx._id, ctx);
   }
 
