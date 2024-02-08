@@ -1,4 +1,4 @@
-interface MultimediaContent {
+export interface MultimediaContent {
   id?: string;
   link: string;
   caption?: string;
@@ -6,7 +6,7 @@ interface MultimediaContent {
   provider?: string;
 }
 
-interface MultimediaMessage {
+export interface MultimediaMessage {
   messaging_product: string;
   recipient_type: 'individual';
   to: string;

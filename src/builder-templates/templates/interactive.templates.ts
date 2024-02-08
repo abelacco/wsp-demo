@@ -1,4 +1,4 @@
-import { SCHUDULE_LIST } from "src/message-cart/helpers/constants";
+import { SCHUDULE_LIST } from "src/context/helpers/constants";
 
 
 export class InteractiveTemplates {

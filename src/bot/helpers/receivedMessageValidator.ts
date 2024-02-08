@@ -1,10 +1,7 @@
-import { Logger } from '@nestjs/common';
 import { IParsedMessage } from '../entities/messageParsed';
-import { BTN_ID, PACK_ID, STEPS } from './constants';
 import { WSP_MESSAGE_TYPES } from 'src/common/constants';
-import { Message } from '../entities/message.entity';
-import e from 'express';
-import { iif } from 'rxjs';
+import { Message } from 'src/context/entities/message.entity';
+import { BTN_ID, PACK_ID, STEPS } from 'src/context/helpers/constants';
 
 
 
@@ -98,56 +95,12 @@ export const receivedMessageValidator = (
     }else {
       return 'NOT_VALID';
     }
-    // case STEPS.INSERT_DATE:
-    //   if (isTextMessage(entryMessage) ||
-    //       (hasSpecificContentId(entryMessage,ID.CHOOSE_ANOTHER)   ||
-    //         hasSpecificContentId(entryMessage,ID.ACCEPT_DATE)  
-    //       )
-    //     ) {
-    //     return true;
-    //   }
-    //   return false;
-    // case STEPS.SELECT_PROVIDER:
-    //   if (
-    //     isInteractiveMessage(entryMessage) &&
-    //     (entryMessage.content.title === REPLIES_BUTTONS.SELECT_PROVIDER ||
-    //       hasSpecificContentId(entryMessage,ID.ACEPT_PROVIDER)   ||
-    //       hasSpecificContentId(entryMessage,ID.CHOOSE_ANOTHER) )
-    //   ) {
-    //     return true;
-    //   }
-    //   return false;
-    // case STEPS.SELECT_PAYMENT:
-    //   if (
-    //     isInteractiveMessage(entryMessage) &&
-    //     REPLIES_BUTTONS.PAYMENTS_OPTIONS.some((opt) => opt === entryMessage.content.title)
-    //   ) {
-    //     return true;
-    //   }
-    //   return false;
-    // case STEPS.SUBMIT_VOUCHER:
-      // if (entryMessage.type === WSP_MESSAGE_TYPES.IMAGE) {
-      //   return true;
-      // }
-      // return false;
+    
     default:
       return 'NOT_VALID';
   }
 };
 
-export const ProviderMessageValidator = (infoMessage: IParsedMessage) => {
-  // Logger.log('INIT PROVIDER MESSAGE VALIDATOR', 'MESSAGE');
-  // if (
-  //   isButtonMessage(infoMessage) &&
-  //   infoMessage.content.title === REPLIES_BUTTONS.PROVIDER_ACCEPT &&
-  //   infoMessage.content.payload?.split('-')[0] === ID.PROVIDER_ACCEPT_ID
-  // ) {
-  //   Logger.log('IS PROVIDER MESSAGE', 'MESSAGE');
-  //   return true;
-  // }
-  // Logger.log('NOT PROVIDER MESSAGE', 'MESSAGE');
-  // return false;
-};
 
 // export const isResetMessage = (infoMessage: IParsedMessage): boolean => infoMessage.content.id === ID.RESET;
 

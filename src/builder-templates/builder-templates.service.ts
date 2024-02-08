@@ -1,46 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Message } from 'src/message-cart/entities/message.entity';
-import { TextTemplates } from './templates/text.templates';
-import { ButtonReply, InteractiveButtonMessage, InteractiveListMessage, InteractiveListSection, TextMessage } from 'src/message-cart/interface';
+import { ButtonReply, InteractiveButtonMessage, InteractiveListMessage, InteractiveListSection, TextMessage , MultimediaMessage, TemplateComponent ,TemplateTextParameter, TemplateMessage} from './interface/index';
+import { SenderService } from 'src/sender/sender.service';
 
 @Injectable()
 export class BuilderTemplatesService {
 
-
-    buildMessageTemplate(messageUpdated: Message): any {
-
-        messageUpdated.step = messageUpdated.step - 1;
-        switch (messageUpdated.step) {
-            case 0:
-                return TextTemplates.greetings(messageUpdated.clientPhone);
-            case 1:
-                return TextTemplates.askForDniTemplate(messageUpdated.clientPhone);
-            case 2:
-                return TextTemplates.dniConfirmationTemplate(messageUpdated.clientPhone);
-            case 3:
-                return [TextTemplates.planesNutricionales(messageUpdated.clientPhone),
-                TextTemplates.confirmAntesDeEscogerPlan(messageUpdated.clientPhone)];
-            case 4:
-                return TextTemplates.cupoDisponible(messageUpdated.clientPhone);
-            case 5:
-                return TextTemplates.listaPlanes(messageUpdated.clientPhone);
-            case 6:
-                return TextTemplates.tipoPlan(messageUpdated.clientPhone);
-            case 7:
-                return TextTemplates.generatePaymentOptions(messageUpdated.clientPhone);
-            case 8:
-                return TextTemplates.generateTextAccount(messageUpdated.clientPhone);
-            case 9:
-                return TextTemplates.verifyingVoucherTemplate(messageUpdated.clientPhone);
-            case 10:
-                return [TextTemplates.patientConfirmationPayment(messageUpdated.clientPhone),
-                TextTemplates.AboutOurServices(messageUpdated.clientPhone)];
-            case 11:
-                return TextTemplates.AboutOurServices(messageUpdated.clientPhone);
-            default:
-                return TextTemplates.greetings(messageUpdated.clientPhone);
-        }
-    }
+    constructor(private readonly senderService: SenderService) { }
 
     buildTextMessage(phoneNumber: string, bodyText: string): TextMessage {
         return {

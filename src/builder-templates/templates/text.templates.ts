@@ -1,4 +1,4 @@
-import { MENU, SCHUDULE_LIST, TITLE_INT_BTN } from 'src/message-cart/helpers/constants';
+import { MENU, SCHUDULE_LIST, TITLE_INT_BTN } from 'src/context/helpers/constants';
 
 
 export class TextTemplates {

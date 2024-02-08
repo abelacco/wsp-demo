@@ -1,75 +1,44 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { SenderService } from 'src/sender/sender.service';
-import { Message } from './entities/message.entity';
-import { MongoDbService } from './db/mongodb.service';
-import { IMessageDao } from './db/messageDao';
 import { IParsedMessage } from './entities/messageParsed';
 import { WspReceivedMessageDto } from 'src/common/dto';
 import { INTERACTIVE_REPLIES_TYPES, WSP_MESSAGE_TYPES } from 'src/common/constants';
 import { receivedMessageValidator } from './helpers/receivedMessageValidator';
 import { FlowsService } from 'src/flows/flows.service';
+import { CtxService } from 'src/context/ctx.service';
 
 
 @Injectable()
-export class MessageCartService {
-  private readonly _db: IMessageDao;
+export class BotService {
 
   constructor(
-    private readonly senderService: SenderService,
-    private readonly _mongoDbService: MongoDbService,
     private readonly flowsService: FlowsService,
+    private readonly ctxService: CtxService,
   ) {
-    this._db = this._mongoDbService;
 
   }
 
   async proccessMessage(entryMessage: WspReceivedMessageDto) {
     // Deestructuración del mensaje de entrada
-    Logger.log( `INIT PROCCESSMESSAGE  `, 'MESSAGE CART SERVICE');
+    Logger.log( `INIT PROCCESSMESSAGE  `, 'BOT SERVICE');
     const parsedMessage = await this.messageDestructurer(entryMessage);
-    Logger.log( `PARSED MESSAGE  ${JSON.stringify(parsedMessage)} `, 'MESSAGE CART SERVICE');
+    Logger.log( `PARSED MESSAGE  ${JSON.stringify(parsedMessage)} `, 'BOT SERVICE');
     //Si es otro tipo de mensaje 
     if(parsedMessage === 'OKNO') {
-      Logger.log( `NO CLIENT MESSAGE`, 'MESSAGE CART SERVICE');
+      Logger.log( `NO CLIENT MESSAGE`, 'BOT SERVICE');
       return 'OK'
     }
     //Busca mensaje por número de cliente
-    const ctx = await this.findOrCreateMessage(parsedMessage);
-    Logger.log( `CTX  ${JSON.stringify(ctx)} `, 'MESSAGE CART SERVICE');
+    const ctx = await this.ctxService.findOrCreateCtx(parsedMessage);
+    Logger.log( `CTX  ${JSON.stringify(ctx)} `, 'BOT SERVICE');
     const action = receivedMessageValidator(ctx.step, parsedMessage);
-    Logger.log( `THE ACTION IS: ${action} `, 'MESSAGE CART SERVICE');
-    let answers:any[]
+    Logger.log( `THE ACTION IS: ${action} `, 'BOT SERVICE');
     if(action === 'NOT_VALID') {
-      Logger.log( `ACTION NOT VALID`, 'MESSAGE CART SERVICE');
+      Logger.log( `ACTION NOT VALID`, 'BOT SERVICE');
       return 'OK';
     } else {
-       answers = await this.flowsService[action](ctx,parsedMessage);
-      ctx.step++;
-      const updateMessage = await this._db.updateMessage(ctx._id, ctx);
-      Logger.log( `UPDATE MESSAGE  ${JSON.stringify(updateMessage)} `, 'MESSAGE CART SERVICE');
+       await this.flowsService[action](ctx,parsedMessage);
+      Logger.log( `THE FLOW : ${action} WAS EXCUTED`, 'BOT SERVICE');
     }
-    for (const answer of answers) {
-      await this.senderService.sendMessages(answer);
-    }
-    Logger.log( `FINISH PROCCESSMESSAGE`, 'MESSAGE CART SERVICE');
-    // // Resetea el step del mensaje
-    // parsedMessage.content === 'reset' ? ctx.step = 0 : null;
-    // // Se le suma 1 al step del mensaje
-    // ctx.step++;
-    // // Si el mensaje es el ultimo agregar el status de pago
-    // ctx.step === 11 ? ctx.status = PAYMENTSTATUS.ACCEPTED : null;
-    // // Se actualiza el mensaje en la base de datos con el step correspondiente
-    // const updateMessage = await this._db.updateMessage(ctx._id, ctx);
-    // // Se obtiene el template correspondiente al step actual
-    // const getTemplate = this.builderTemplate.buildMessageTemplate(updateMessage);
-    // // Se envia el mensaje al cliente
-    // if(getTemplate instanceof Array) {
-    //   for (const message of getTemplate) {
-    //     await this.senderService.sendMessages(message);
-    //   }
-    // } else {
-    //   await this.senderService.sendMessages(getTemplate);
-    // }
     return 'OK';
   }
 
@@ -133,11 +102,6 @@ export class MessageCartService {
   return parsedMessage;
   }
 
-  private async findOrCreateMessage({ clientPhone }): Promise<Message> {
-    //Busca mensaje por número de cliente
-    const message = await this._db.findOrCreate(clientPhone);
 
-    return message;
-  }
 
 }

@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { WspQueriesDto } from './dto';
 import { WspReceivedMessageDto } from 'src/common/dto';
-import { MessageCartService } from 'src/message-cart/message-cart.service';
+import { BotService } from 'src/bot/bot.service';
 
 
 @Injectable()
 export class WspWebHookService {
   constructor(
-    private readonly msgService: MessageCartService,
+    private readonly botService: BotService,
   ) {}
 
  // Este metodo debe servir como handler de los mensajes que llegan desde WhatsApp
  async proccessMessage(messageWSP: WspReceivedMessageDto) {
-  const processMessage = await this.msgService.proccessMessage(messageWSP);
+  const processMessage = await this.botService.proccessMessage(messageWSP);
   return 'OK';
 }
 
