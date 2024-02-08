@@ -1,4 +1,4 @@
-import { DOCTOR_LIST, MENU, SCHUDULE_LIST, TITLE_INT_BTN } from "src/common/dto/constants";
+import { MENU, SCHUDULE_LIST, TITLE_INT_BTN } from 'src/message-cart/helpers/constants';
 
 
 export class TextTemplates {
@@ -18,7 +18,7 @@ export class TextTemplates {
                 //     text: 'Opciones',
                 // },
                 body: {
-                    text: 'Hola, ¿qué tal? \n\n ¿Cuéntanos, cómo podemos ayudarte? ✨',
+                    text: 'Hola, ¿qué tal? ¿Cuéntanos, cómo podemos ayudarte? ✨',
                 },
                 footer: {
                     text: 'Escribir ayuda para atención personalizada',
@@ -439,7 +439,7 @@ export class TextTemplates {
                     sections: [
                         {
                             title: 'Doctores',
-                            rows: DOCTOR_LIST
+                            rows: MENU
                         },
                     ],
                 },

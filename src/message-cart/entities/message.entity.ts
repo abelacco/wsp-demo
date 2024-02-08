@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
-import { PAYMENTSTATUS, STEPS } from "src/common/dto/constants";
+import { PAYMENTSTATUS, STEPS } from "../helpers/constants";
 
 @Schema()
 export class Message extends Document {

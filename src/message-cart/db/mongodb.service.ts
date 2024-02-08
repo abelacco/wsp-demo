@@ -6,7 +6,7 @@ import { IMessageDao } from './messageDao';
 // import { PaginationMessageDto } from '../dto/pagination.dto';
 import { mongoExceptionHandler } from 'src/common/exceptions';
 import { UpdateMessageDto } from '../dto';
-import { PAYMENTSTATUS } from 'src/common/dto/constants';
+import { PAYMENTSTATUS } from '../helpers/constants';
 
 
 @Injectable()

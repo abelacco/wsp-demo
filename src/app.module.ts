@@ -9,6 +9,9 @@ import { BuilderTemplatesModule } from './builder-templates/builder-templates.mo
 import { EnvConfiguration } from './config/app.config';
 import { JoiValidationSchema } from './config/joi.validation';
 import { MongooseModule } from '@nestjs/mongoose';
+import { FlowsModule } from './flows/flows.module';
+import { GeneralServicesModule } from './general-services/general-services.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -18,7 +21,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.MONGODB),
-    WspWebHookModule, SenderModule, MessageCartModule, BuilderTemplatesModule],
+    WspWebHookModule, SenderModule, MessageCartModule, BuilderTemplatesModule, FlowsModule, GeneralServicesModule , UserModule],
   controllers: [AppController],
   providers: [AppService],
 })

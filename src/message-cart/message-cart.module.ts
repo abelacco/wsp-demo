@@ -8,6 +8,8 @@ import { BuilderTemplatesService } from 'src/builder-templates/builder-templates
 import { MongoDbService } from './db/mongodb.service';
 import { SenderModule } from 'src/sender/sender.module';
 import { BuilderTemplatesModule } from 'src/builder-templates/builder-templates.module';
+import { Flow } from 'src/flows/entities/flow.entity';
+import { FlowsModule } from 'src/flows/flows.module';
 
 @Module({
   controllers: [MessageCartController],
@@ -20,7 +22,8 @@ import { BuilderTemplatesModule } from 'src/builder-templates/builder-templates.
       },
     ]),
     SenderModule,
-    BuilderTemplatesModule
+    BuilderTemplatesModule,
+    FlowsModule,
     ],
   exports: [MessageCartService],
 })
