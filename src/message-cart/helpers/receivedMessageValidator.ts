@@ -92,6 +92,12 @@ export const receivedMessageValidator = (
         return 'waitingPaymentFlow';
       }
       return 'NOT_VALID';
+    case STEPS.CONFIRM_PAYMENT: // Estoy esperando que el admin confirme o rechaze el pago
+    if(isButtonMessage(entryMessage) && hasSpecificTitle(entryMessage, 'VALIDAR') ) {
+      return 'confirmationSaleFlow';
+    }else {
+      return 'NOT_VALID';
+    }
     // case STEPS.INSERT_DATE:
     //   if (isTextMessage(entryMessage) ||
     //       (hasSpecificContentId(entryMessage,ID.CHOOSE_ANOTHER)   ||

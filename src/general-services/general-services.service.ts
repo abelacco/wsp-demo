@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGeneralServiceDto } from './dto/create-general-service.dto';
 import { UpdateGeneralServiceDto } from './dto/update-general-service.dto';
-import { DocumentDto } from './dto/get-document.dto';
 import { DOCUMENT_IDENTIFIERS } from 'src/common/constants';
 import axios from 'axios';
+import {  v2 as cloudinary } from 'cloudinary';
+import { CloudinaryResponse } from './types/cloudinary-response';
+const streamifier = require('streamifier');
+
 
 @Injectable()
 export class GeneralServicesService {
@@ -22,6 +25,29 @@ export class GeneralServicesService {
     const response = await axios.get(url);
     return response.data
 
+  }
+
+  async uploadFromURL(imageUrl: string): Promise<CloudinaryResponse> {
+    const whatsAppToken = process.env.CURRENT_ACCESS_TOKEN;
+    // Descargar la imagen de la URL
+    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' , headers: { Authorization: `Bearer ${whatsAppToken}` }  });
+    const imageBuffer = Buffer.from(response.data, 'binary');
+
+    // Subir el buffer a Cloudinary
+    return this.uploadToCloudinary(imageBuffer);
+  }
+
+  private uploadToCloudinary(imageBuffer: Buffer): Promise<CloudinaryResponse> {
+    return new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream((error: CloudinaryResponse, result: CloudinaryResponse) => {
+        if (result) {
+          resolve(result);
+        } else {
+          reject(error);
+        }
+      });
+      streamifier.createReadStream(imageBuffer).pipe(stream);
+    });
   }
   
   create(createGeneralServiceDto: CreateGeneralServiceDto) {

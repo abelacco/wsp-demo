@@ -172,8 +172,10 @@ export class FlowsService {
   async waitingPaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
     const answers = []
     const url = await this.getWhatsappMediaUrl({imageId: messageEntry.content});
-    ctx.imageVoucher = url;
-    await this.notifyPaymentFlow(ctx,messageEntry);
+    const cloudinaryUrl =await this.generalService.uploadFromURL(url);
+    ctx.imageVoucher = cloudinaryUrl.url;
+    const notifyPaymentTemplate  = await this.notifyPaymentFlow(ctx,messageEntry);
+    answers.push(notifyPaymentTemplate[0]);
     const clientPhone = messageEntry.clientPhone;
     const message = 'Estamos verificando tu comprobante de pago, esto tomará unos minutos por favor! 🙌';
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);

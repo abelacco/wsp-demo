@@ -23,7 +23,7 @@ export const MENU = [
   }
 ];
 
-export const PACK_ID= {
+export const PACK_ID = {
   MMV_INTERCAMBIOS: 'MMV_INTERCAMBIOS',
   MMV_SEMANA: 'MMV_SEMANA',
   MMV_MES: 'MMV_MES',
@@ -33,7 +33,7 @@ export const PACK_ID= {
   MLI_INTERCAMBIOS: 'MLI_INTERCAMBIOS',
   MLI_SEMANA: 'MLI_SEMANA',
   MLI_MES: 'MLI_MES',
-  }
+}
 
 export const PACK = [
   {
@@ -88,7 +88,7 @@ export const PACK = [
       }
     ]
   }
-  
+
 ];
 
 
@@ -115,7 +115,7 @@ export const SCHUDULE_LIST = [
   },
   {
     id: '5',
-    title: '25/01/2024 10:00 am',  
+    title: '25/01/2024 10:00 am',
   },
   {
     id: '6',
@@ -129,35 +129,35 @@ export const SCHUDULE_LIST = [
 // Pasos de la conversación
 
 export const STEPS = {
-INIT: 0,
-CHOOSE_MENU_OPT: 1,
-CONTINUE_PURCHASE: 2,
-PUT_DNI: 3,
-CHOOSE_PACK_OPT: 4,
-PROVIDER_PAYMENT_SELECTED: 5,
-SUBMIT_VOUCHER: 6,
-// SUBMIT_VOUCHER: 7,
-SEND_CONFIRMATION: 8,
-INFO_FOR_NEW_PROVIDER: 9,
+  INIT: 0,
+  CHOOSE_MENU_OPT: 1,
+  CONTINUE_PURCHASE: 2,
+  PUT_DNI: 3,
+  CHOOSE_PACK_OPT: 4,
+  PROVIDER_PAYMENT_SELECTED: 5,
+  SUBMIT_VOUCHER: 6,
+  CONFIRM_PAYMENT: 7,
+  SEND_CONFIRMATION: 8,
+  INFO_FOR_NEW_PROVIDER: 9,
 };
 
 // MENSAJES Y ID DE MENSAJES INTERACTIVOS
 
 export const TITLE_INT_BTN = {
-INTRODUCTION_TEMPLATE_A1: 'Buscar cuarto 🛏️',
-INTRODUCTION_TEMPLATE_A2: '⚕️ Soy Hotel',
-RESET_TEMPLATE: 'Reset',
-CONFIRMATION_ANSWER: 'Confirmar ✅',
-TRY_AGAIN_ANSWER: 'Volver a intentar 👀',
-CHOOSE_ANOTHER_ANSWER: 'Elegir otro 🔄',
-CHOOSE_ANOTHER_DATE_ANSWER: 'Otra fecha 📅',
-SELECT_PROVIDER: 'Reservar cuarto 🛒',
-ACCEPT: 'Aceptar ✅',
-GREETING: ['Hola', 'Necesito ayuda'],
-ACCEPT_APPOINTMENT: 'Aceptar',
-PAYMENTS_OPTIONS: ['Tarjeta 💳', 'Yape/Plin 📱', 'Efectivo'],
-SUBMIT_VOUCHER: 'Listo',
-PROVIDER_ACCEPT: 'Aceptar ✅',
+  INTRODUCTION_TEMPLATE_A1: 'Buscar cuarto 🛏️',
+  INTRODUCTION_TEMPLATE_A2: '⚕️ Soy Hotel',
+  RESET_TEMPLATE: 'Reset',
+  CONFIRMATION_ANSWER: 'Confirmar ✅',
+  TRY_AGAIN_ANSWER: 'Volver a intentar 👀',
+  CHOOSE_ANOTHER_ANSWER: 'Elegir otro 🔄',
+  CHOOSE_ANOTHER_DATE_ANSWER: 'Otra fecha 📅',
+  SELECT_PROVIDER: 'Reservar cuarto 🛒',
+  ACCEPT: 'Aceptar ✅',
+  GREETING: ['Hola', 'Necesito ayuda'],
+  ACCEPT_APPOINTMENT: 'Aceptar',
+  PAYMENTS_OPTIONS: ['Tarjeta 💳', 'Yape/Plin 📱', 'Efectivo'],
+  SUBMIT_VOUCHER: 'Listo',
+  PROVIDER_ACCEPT: 'Aceptar ✅',
 }
 
 
@@ -173,20 +173,20 @@ export const NAME_TEMPLATES = {
   NEW_CONVERSATION: 'new_conversation',
 }
 
-export const BTN_ID ={
-ACCEPT_DNI: 'accpt_dni',
-RETRY_DNI: 'retry_dni',
-CONFIRM_GENERAL: 'confirm_general',
-CANCEL_GENERAL: 'cancel_general',
-PAYMENT_YAPE:'yape_plin',
+export const BTN_ID = {
+  ACCEPT_DNI: 'accpt_dni',
+  RETRY_DNI: 'retry_dni',
+  CONFIRM_GENERAL: 'confirm_general',
+  CANCEL_GENERAL: 'cancel_general',
+  PAYMENT_YAPE: 'yape_plin',
 }
 
 export const BTN_TITLE = {
-ACCEPT_DNI: 'Confirmar ✅',
-RETRY_DNI: 'Volver a intentar 👀',
-CONFIRM_GENERAL: '✅ Continuar',
-CANCEL_GENERAL: '❌ Cancelar',
-PAYMENT_YAPE:'Yape/Plin 📱',
+  ACCEPT_DNI: 'Confirmar ✅',
+  RETRY_DNI: 'Volver a intentar 👀',
+  CONFIRM_GENERAL: '✅ Continuar',
+  CANCEL_GENERAL: '❌ Cancelar',
+  PAYMENT_YAPE: 'Yape/Plin 📱',
 }
 
 export const BTN_OPT_CONFIRM_DNI = [

@@ -114,6 +114,12 @@ export class MessageCartService {
       }
       break;
     case WSP_MESSAGE_TYPES.BUTTON:
+      parsedMessage.content = {
+        title: message.button.text,
+        payload: message.button.payload,
+      };
+      
+      break;
     case WSP_MESSAGE_TYPES.TEXT:
       parsedMessage.content = message.text.body;
       break;
