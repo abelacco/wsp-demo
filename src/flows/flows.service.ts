@@ -98,7 +98,7 @@ export class FlowsService {
     const clientPhone = messageEntry.clientPhone;
     const templateName:string = NAME_TEMPLATES.NOTIFY_PAYMENT;
     const languageCode = 'es';
-    const headerImageUrl = 'https://res.cloudinary.com/dbq85fwfz/image/upload/v1707063439/chgtdb4pgtekpa8bxchf.jpg';
+    const headerImageUrl = ctx.imageVoucher ? ctx.imageVoucher : null;
     const bodyParameters = ['SERGIO TALLEDO CORONADO','MI MEJOR VERSIÓN', 'INTERCAMBIOS' , '120', '51947308823',]
     const template = this.builderTemplate.buildTemplateMessage(clientPhone, templateName ,languageCode, headerImageUrl,bodyParameters);
     answers.push(template);
@@ -171,7 +171,9 @@ export class FlowsService {
 
   async waitingPaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
     const answers = []
-    await this.getWhatsappMediaUrl({imageId: messageEntry.content});
+    const url = await this.getWhatsappMediaUrl({imageId: messageEntry.content});
+    ctx.imageVoucher = url;
+    await this.notifyPaymentFlow(ctx,messageEntry);
     const clientPhone = messageEntry.clientPhone;
     const message = 'Estamos verificando tu comprobante de pago, esto tomará unos minutos por favor! 🙌';
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
