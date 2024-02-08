@@ -13,9 +13,10 @@ import { BTN_ID, PACK_ID, STEPS } from 'src/context/helpers/constants';
 // Si recibe que el carrito de compras esta en el paso select_payment , entonces el mensaje que reciba debe ser de tipo interactive
 // Si recibe que el carrito de compras esta en el paso submit_voucher , entonces el mensaje que reciba debe ser de tipo image
 export const receivedMessageValidator = (
-  currentStep: number,
+  ctx: Message,
   entryMessage: IParsedMessage,
 ) => {
+  let currentStep = ctx.step;
   switch (currentStep) {
     case STEPS.INIT: // Respondo al primer saludo
       if (isTextMessage(entryMessage)) {
@@ -42,7 +43,10 @@ export const receivedMessageValidator = (
       return 'NOT_VALID';
     case STEPS.CONTINUE_PURCHASE: // Estoy esperando una confirmación de seguir con la compra
         if(isInteractiveMessage(entryMessage) && hasSpecificContentId(entryMessage,BTN_ID.CONFIRM_GENERAL) ) {
-          return 'askDniFlow'; // Si es continuar con la compra, pido el DNI
+          if(ctx.dni === null) {
+            return 'askDniFlow'; // Si es continuar con la compra, pido el DNI
+          }
+          return 'choosePackFlow'; // Si ya tiene DNI, pido que elija un paquete
         }
         return 'NOT_VALID';
     case STEPS.PUT_DNI: // Estoy esperando que ingreses o confirmes tu DNI

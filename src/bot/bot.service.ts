@@ -30,7 +30,7 @@ export class BotService {
     //Busca mensaje por número de cliente
     const ctx = await this.ctxService.findOrCreateCtx(parsedMessage);
     Logger.log( `CTX  ${JSON.stringify(ctx)} `, 'BOT SERVICE');
-    const action = receivedMessageValidator(ctx.step, parsedMessage);
+    const action = receivedMessageValidator(ctx, parsedMessage);
     Logger.log( `THE ACTION IS: ${action} `, 'BOT SERVICE');
     if(action === 'NOT_VALID') {
       Logger.log( `ACTION NOT VALID`, 'BOT SERVICE');
