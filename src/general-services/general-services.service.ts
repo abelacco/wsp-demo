@@ -21,9 +21,14 @@ export class GeneralServicesService {
 
   async findDocument(document:string) {
     const tipo = document.length === DOCUMENT_IDENTIFIERS.DNI_LENGTH ? DOCUMENT_IDENTIFIERS.DNI_TYPE : DOCUMENT_IDENTIFIERS.RUC_TYPE;
-    const url = `${this.urlApiPeruService}${tipo}/${document}?token=${this.apiKey}`;
-    const response = await axios.get(url);
-    return response.data
+    try{
+      const url = `${this.urlApiPeruService}${tipo}/${document}?token=${this.apiKey}`;
+      const response = await axios.get(url);
+      return response.data
+    }
+    catch(error){
+      return error
+    }
 
   }
 
