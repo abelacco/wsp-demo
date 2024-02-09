@@ -10,6 +10,8 @@ import { IParsedMessage } from 'src/builder-templates/interface';
 import { CtxService } from 'src/context/ctx.service';
 import { SenderService } from 'src/sender/sender.service';
 import { Utilities } from 'src/context/helpers/utils';
+import { GoogleSpreadsheetService } from 'src/google-spreadsheet/google-spreadsheet.service';
+import { SaleOrder } from 'src/google-spreadsheet/entities';
 
 @Injectable()
 export class FlowsService {
@@ -20,6 +22,7 @@ export class FlowsService {
     private readonly generalService: GeneralServicesService,
     private readonly ctxService: CtxService,
     private readonly senderService: SenderService,
+    private readonly googleSpreadsheetService: GoogleSpreadsheetService,
     ) {
     }
   async initFlow(ctx:Message ,messageEntry: IParsedMessage) {
@@ -173,7 +176,14 @@ export class FlowsService {
     let modalitySelected = ctx.modalitySelected;
     let planSelected = ctx.planSelected;
     let price = ctx.price;
-    let turno = '12/12/2021';
+    let turno = '12/02/2024';
+    ctx.turn = turno;
+    let purchase = '09/02/2024'
+    ctx.purchase = purchase;
+    let code = '123456';
+    ctx.code = code;
+    let saleOrder = new SaleOrder(ctx);
+    await this.googleSpreadsheetService.insertData(0,saleOrder);
     const clientPhone = messageEntry.clientPhone;
     const message = '¡Felicidades! Tu compra ha sido confirmada, estos son los detalles de tu compra: \n\n' + `Cliente: ${clientname} \nModalidad: ${modalitySelected} \nPlan: ${planSelected} \nPrecio: S/. ${price} \nFecha de inicio: ${turno}`;
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);

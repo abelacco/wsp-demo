@@ -4,6 +4,7 @@ import { GoogleSpreadsheetController } from './google-spreadsheet.controller';
 
 @Module({
   controllers: [GoogleSpreadsheetController],
-  providers: [GoogleSpreadsheetService]
+  providers: [GoogleSpreadsheetService],
+  exports: [GoogleSpreadsheetService],
 })
 export class GoogleSpreadsheetModule {}

@@ -6,11 +6,12 @@ import { UserModule } from 'src/user/user.module';
 import { GeneralServicesModule } from 'src/general-services/general-services.module';
 import { CtxModule } from 'src/context/ctx.module';
 import { SenderModule } from 'src/sender/sender.module';
+import { GoogleSpreadsheetModule } from 'src/google-spreadsheet/google-spreadsheet.module';
 
 @Module({
   controllers: [FlowsController],
   providers: [FlowsService],
   exports: [FlowsService],
-  imports: [ CtxModule,BuilderTemplatesModule , UserModule, GeneralServicesModule, SenderModule]
+  imports: [ CtxModule,BuilderTemplatesModule , UserModule, GeneralServicesModule, SenderModule, GoogleSpreadsheetModule]
 })
 export class FlowsModule {}

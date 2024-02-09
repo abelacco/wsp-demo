@@ -21,10 +21,10 @@ export const receivedMessageValidator = (
     case STEPS.INIT: // Respondo al primer saludo
       if (isTextMessage(entryMessage)) {
         // Debo llamar al servicio para responder
-        return 'choosePaymentFlow';
+        return 'initFlow';
       }
       // debo llamar al servicio para responder que no es el mensaje esperado
-      return 'choosePaymentFlow';
+      return 'NOT_VALID';
     case STEPS.CHOOSE_MENU_OPT: // Estoy esperando una opcion del menu
       if (isInteractiveMessage(entryMessage)) {
         switch (entryMessage.content.id) {

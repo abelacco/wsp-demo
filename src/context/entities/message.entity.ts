@@ -25,7 +25,11 @@ export class Message extends Document {
 
     @Prop({
     })
-    date: Date;
+    purchase: string;
+
+    @Prop({
+    })
+    turn: string;
 
     @Prop({
         type: String,
