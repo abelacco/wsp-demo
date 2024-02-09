@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BuilderTemplatesService } from 'src/builder-templates/builder-templates.service';
-import { BTN_OPT_CONFIRM_DNI, BTN_OPT_CONFIRM_GENERAL, BTN_OPT_PAYMENT, MENU, NAME_TEMPLATES, PACK, STEPS } from 'src/context/helpers/constants';
+import { BTN_OPT_CONFIRM_DNI, BTN_OPT_CONFIRM_GENERAL, BTN_OPT_PAYMENT, MENU, NAME_TEMPLATES, PACK, PAYMENTSTATUS, STEPS } from 'src/context/helpers/constants';
 import { Message } from 'src/context/entities/message.entity';
 import { MULTIMEDIA_TYPES } from 'src/common/constants';
 import { UserService } from 'src/user/user.service';
@@ -9,6 +9,7 @@ import axios from 'axios';
 import { IParsedMessage } from 'src/builder-templates/interface';
 import { CtxService } from 'src/context/ctx.service';
 import { SenderService } from 'src/sender/sender.service';
+import { Utilities } from 'src/context/helpers/utils';
 
 @Injectable()
 export class FlowsService {
@@ -64,6 +65,8 @@ export class FlowsService {
   async confirmDniFlow(ctx:Message ,messageEntry: IParsedMessage) {
     const dniInfo = await this.generalService.findDocument(messageEntry.content);
     const fullname = `${dniInfo.nombres} ${dniInfo.apellidoPaterno} ${dniInfo.apellidoMaterno}`
+    ctx.clientName = fullname;
+    await this.ctxService.updateCtx(ctx._id, ctx);
     const clientPhone = messageEntry.clientPhone;
     const message = `¿Eres ${fullname}?`;
     const buttons = BTN_OPT_CONFIRM_DNI;
@@ -123,7 +126,13 @@ export class FlowsService {
 
 
   async choosePaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    ctx.packId = messageEntry.content.id;
+    ctx.modalitySelected = messageEntry.content.title;
+    ctx.planSelected = Utilities.findPlanDetails(ctx.packId,ctx.modalitySelected);
+    ctx.price = Utilities.obtenerPrecioPorPackId(ctx.packId);
     const clientPhone = messageEntry.clientPhone;
+    const confirmTemplate = this.builderTemplate.buildTextMessage(clientPhone,`¡Genial ${ctx.clientName}!Has seleccionado el plan ${ctx.planSelected} en la modalidad ${ctx.modalitySelected} por S/. ${ctx.price}`);
+    await this.senderService.sendMessages(confirmTemplate);
     const bodyText = 'Escoge el medio de pago que prefieras';
     const buttons = BTN_OPT_PAYMENT;
     const template = this.builderTemplate.buildInteractiveButtonMessage(clientPhone,bodyText,buttons);
@@ -133,6 +142,7 @@ export class FlowsService {
   }
 
   async submitVoucherFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    ctx.paymentMethod = messageEntry.content.id;
     const clientPhone = messageEntry.clientPhone;
     const message = '☝️ Para terminar, por favor realizar el yape al 997967943 a nombre de Diana Otero y enviar una captura del pago en este chat ';
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
@@ -158,9 +168,14 @@ export class FlowsService {
   }
 
   async confirmationSaleFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    // Envia a cliente y usuario
+    ctx.status = PAYMENTSTATUS.ACCEPTED;
+    let clientname = ctx.clientName;
+    let modalitySelected = ctx.modalitySelected;
+    let planSelected = ctx.planSelected;
+    let price = ctx.price;
+    let turno = '12/12/2021';
     const clientPhone = messageEntry.clientPhone;
-    const message = '¡Genial! Tu compra ha sido confirmada';
+    const message = '¡Felicidades! Tu compra ha sido confirmada, estos son los detalles de tu compra: \n\n' + `Cliente: ${clientname} \nModalidad: ${modalitySelected} \nPlan: ${planSelected} \nPrecio: S/. ${price} \nFecha de inicio: ${turno}`;
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
     await this.senderService.sendMessages(template);
     ctx.step = STEPS.INIT;

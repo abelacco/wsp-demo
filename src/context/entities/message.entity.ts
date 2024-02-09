@@ -6,65 +6,35 @@ import { PAYMENTSTATUS, STEPS } from "../helpers/constants";
 export class Message extends Document {
 
     @Prop({
-        // index: true
     })
     clientId: string;
 
     @Prop({
-        // index: true
-        required: false
-    })
-    appointmentId: string;
-    
-    @Prop({
-        // index: true
     })
     clientName: string;
 
-    @Prop({
-        // index: true
-    })
-    dni: string;
 
     @Prop({
-        // index: true
-    })
-    providerId: string;
-
-    // @Prop({
-    //     // index: true
-    // })
-    // speciality: string;
-
-    @Prop({
-        // required: true,
-        // index: true
     })
     clientPhone: string;
 
     @Prop({
-        // index: true
     })
-    providerPhone: string;
+    dni: string;
 
-   @Prop({
-        // required: true,
-        // index: true
+
+    @Prop({
     })
     date: Date;
 
     @Prop({
-        // required: true,
-        // index: true
-        type: Number,
+        type: String,
         enum: STEPS,
         default: STEPS.INIT
     })
-    step: number;
+    step: string;
 
     @Prop({
-        // required: true,
-        // index: true
         type: String,
         enum: PAYMENTSTATUS,
         default: PAYMENTSTATUS.PENDING
@@ -72,30 +42,38 @@ export class Message extends Document {
     status: string;
 
     @Prop({
-        // required: true,
-        // index: true
         default: 0
     })
     attempts: number;
 
     @Prop({
-        // required: true,
-        // index: true
+    })
+    packId: string;
+
+    @Prop({
+    })
+    modalitySelected: string;
+
+    @Prop({
+    })
+    planSelected: string;
+
+    @Prop({
+    })
+    price: number;
+
+    @Prop({
+    })
+    paymentMethod: string;
+
+    @Prop({
     })
     imageVoucher: string;
 
     @Prop({
-        // required: true,
-        // index: true
-    })
-    fee: number;
-
-    @Prop({
-        // required: true,
-        // index: true
     })
     code: string;
 
 }
 
- export const MessageSchema = SchemaFactory.createForClass(Message);
+export const MessageSchema = SchemaFactory.createForClass(Message);

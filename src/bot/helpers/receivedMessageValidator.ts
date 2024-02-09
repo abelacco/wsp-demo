@@ -21,10 +21,10 @@ export const receivedMessageValidator = (
     case STEPS.INIT: // Respondo al primer saludo
       if (isTextMessage(entryMessage)) {
         // Debo llamar al servicio para responder
-        return 'choosePackFlow';
+        return 'choosePaymentFlow';
       }
       // debo llamar al servicio para responder que no es el mensaje esperado
-      return 'NOT_VALID';
+      return 'choosePaymentFlow';
     case STEPS.CHOOSE_MENU_OPT: // Estoy esperando una opcion del menu
       if (isInteractiveMessage(entryMessage)) {
         switch (entryMessage.content.id) {
@@ -69,8 +69,8 @@ export const receivedMessageValidator = (
       case STEPS.CHOOSE_PACK_OPT: // Estoy esperando que selecciones un paquete
       if (isInteractiveMessage(entryMessage)) {
         let packSelected = false;
-        for (const id of Object.values(PACK_ID)) {
-          if (hasSpecificContentId(entryMessage, id)) {
+        for (const pack of Object.values(PACK_ID)) {
+          if (hasSpecificContentId(entryMessage, pack.ID)) {
             packSelected = true;
             break; // Salir del bucle una vez que encuentres un ID coincidente
           }

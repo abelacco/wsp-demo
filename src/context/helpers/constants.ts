@@ -20,34 +20,87 @@ export const MENU = [
 ];
 
 export const PACK_ID = {
-  MMV_INTERCAMBIOS: 'MMV_INTERCAMBIOS',
-  MMV_SEMANA: 'MMV_SEMANA',
-  MMV_MES: 'MMV_MES',
-  APLV_INTERCAMBIOS: 'APLV_INTERCAMBIOS',
-  APLV_SEMANA: 'APLV_SEMANA',
-  APLV_MES: 'APLV_MES',
-  MLI_INTERCAMBIOS: 'MLI_INTERCAMBIOS',
-  MLI_SEMANA: 'MLI_SEMANA',
-  MLI_MES: 'MLI_MES',
+  MMV_INTERCAMBIOS: {
+    ID: 'MMV_INTERCAMBIOS',
+    precio: 120,
+  },
+  MMV_SEMANA: {
+    ID: 'MMV_SEMANA',
+    precio: 200,
+  },
+  MMV_MES: {
+    ID: 'MMV_MES',
+    precio: 400,
+  },
+  APLV_INTERCAMBIOS: {
+    ID: 'APLV_INTERCAMBIOS',
+    precio: 150,
+  },
+  APLV_SEMANA: {
+    ID: 'APLV_SEMANA',
+    precio: 280,
+  },
+  APLV_MES: {
+    ID: 'APLV_MES',
+    precio: 500,
+  },
+  MLI_INTERCAMBIOS: {
+    ID: 'MLI_INTERCAMBIOS',
+    precio: 150,
+  },
+  MLI_SEMANA: {
+    ID: 'MLI_SEMANA',
+    precio: 280,
+  },
+  MLI_MES: {
+    ID: 'MLI_MES',
+    precio: 500,
+  }
+};
+
+
+
+export const MODALITY = {
+  INTERCAMBIOS: 'INTERCAMBIOS',
+  SEMANA: 'SEMANA',
+  MES: 'MES',
+}
+
+export const PLAN = {
+  MMV: 
+    {
+      PLAN_NAME: 'Mi Mejor Versión',
+      WPS_NAME:'Mi Mejor Versión 🧘‍♀️',
+    },
+  APLV: 
+    {
+      PLAN_NAME: 'APLV',
+      WPS_NAME:'APLV 🤱',
+    },
+  MLI: 
+    {
+      PLAN_NAME: 'Mi Luna Interior',
+      WPS_NAME:'Mi Luna Interior🌛',
+    },
 }
 
 export const PACK = [
   {
-    title: 'Mi Mejor Versión 🧘‍♀️',
+    title: PLAN.MMV.WPS_NAME,
     rows: [
       {
-        id: PACK_ID.MMV_INTERCAMBIOS,
-        title: 'INTERCAMBIOS',
+        id: PACK_ID.MMV_INTERCAMBIOS.ID,
+        title: MODALITY.INTERCAMBIOS,
         description: 'Precio: S/. 120',
       },
       {
-        id: PACK_ID.MMV_SEMANA,
+        id: PACK_ID.MMV_SEMANA.ID,
         title: 'MENÚ SEMANA',
         description: 'Precio: S/. 200',
 
       },
       {
-        id: PACK_ID.MMV_MES,
+        id: PACK_ID.MMV_MES.ID,
         title: 'MENÚ MES',
         description: 'Precio: S/. 400',
 
@@ -55,22 +108,22 @@ export const PACK = [
     ]
   },
   {
-    title: 'APLV 🤱',
+    title: PLAN.APLV.WPS_NAME,
     rows: [
       {
-        id: PACK_ID.APLV_INTERCAMBIOS,
+        id: PACK_ID.APLV_INTERCAMBIOS.ID,
         title: 'INTERCAMBIOS',
         description: 'Precio: S/. 150',
 
       },
       {
-        id: PACK_ID.APLV_SEMANA,
+        id: PACK_ID.APLV_SEMANA.ID,
         title: 'MENÚ SEMANA',
         description: 'Precio: S/. 280',
 
       },
       {
-        id: PACK_ID.APLV_MES,
+        id: PACK_ID.APLV_MES.ID,
         title: 'MENÚ MES',
         description: 'Precio: S/. 500',
 
@@ -78,22 +131,22 @@ export const PACK = [
     ]
   },
   {
-    title: 'Mi Luna Interior🌛',
+    title: PLAN.MLI.WPS_NAME,
     rows: [
       {
-        id: PACK_ID.MLI_INTERCAMBIOS,
+        id: PACK_ID.MLI_INTERCAMBIOS.ID,
         title: 'INTERCAMBIOS',
         description: 'Precio: S/. 150',
 
       },
       {
-        id: PACK_ID.MLI_SEMANA,
+        id: PACK_ID.MLI_SEMANA.ID,
         title: 'MENÚ SEMANA',
         description: 'Precio: S/. 280',
 
       },
       {
-        id: PACK_ID.MLI_MES,
+        id: PACK_ID.MLI_MES.ID,
         title: 'MENÚ MES',
         description: 'Precio: S/. 500',
 
@@ -141,16 +194,16 @@ export const SCHUDULE_LIST = [
 // Pasos de la conversación
 
 export const STEPS = {
-  INIT: 0,
-  CHOOSE_MENU_OPT: 1,
-  CONTINUE_PURCHASE: 2,
-  PUT_DNI: 3,
-  CHOOSE_PACK_OPT: 4,
-  PROVIDER_PAYMENT_SELECTED: 5,
-  SUBMIT_VOUCHER: 6,
-  CONFIRM_PAYMENT: 7,
-  SEND_CONFIRMATION: 8,
-  INFO_FOR_NEW_PROVIDER: 9,
+  INIT: '0',
+  CHOOSE_MENU_OPT: '1',
+  CONTINUE_PURCHASE: '2',
+  PUT_DNI: '3',
+  CHOOSE_PACK_OPT: '4',
+  PROVIDER_PAYMENT_SELECTED: '5',
+  SUBMIT_VOUCHER: '6',
+  CONFIRM_PAYMENT: '7',
+  SEND_CONFIRMATION: '8',
+  INFO_FOR_NEW_PROVIDER: '9',
 };
 
 // MENSAJES Y ID DE MENSAJES INTERACTIVOS

@@ -7,23 +7,19 @@ export class CreateMessageDto {
 
     @IsString()
     @IsOptional()
-    doctor: string;
+    clientPhone: string;
 
     @IsString()
     @IsOptional()
-    speciality: string;
-
-    @IsString()
-    @IsOptional()
-    phone: string;
+    dni: string;
     
     @IsDate()
     @IsOptional()
     date: Date;
     
-    @IsNumber()
+    @IsString()
     @IsOptional()
-    step: number;
+    step: string;
     
     @IsString()
     @IsOptional()
