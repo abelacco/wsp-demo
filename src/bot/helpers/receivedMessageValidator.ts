@@ -43,7 +43,7 @@ export const receivedMessageValidator = (
       return 'NOT_VALID';
     case STEPS.CONTINUE_PURCHASE: // Estoy esperando una confirmación de seguir con la compra
         if(isInteractiveMessage(entryMessage) && hasSpecificContentId(entryMessage,BTN_ID.CONFIRM_GENERAL) ) {
-          if(ctx.dni === null) {
+          if(ctx.dni === null || ctx.dni === '' || ctx.dni === undefined) {
             return 'askDniFlow'; // Si es continuar con la compra, pido el DNI
           }
           return 'choosePackFlow'; // Si ya tiene DNI, pido que elija un paquete

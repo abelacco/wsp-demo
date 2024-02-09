@@ -68,6 +68,7 @@ export class FlowsService {
   async confirmDniFlow(ctx:Message ,messageEntry: IParsedMessage) {
     const dniInfo = await this.generalService.findDocument(messageEntry.content);
     const fullname = `${dniInfo.nombres} ${dniInfo.apellidoPaterno} ${dniInfo.apellidoMaterno}`
+    ctx.dni = dniInfo.dni;
     ctx.clientName = fullname;
     await this.ctxService.updateCtx(ctx._id, ctx);
     const clientPhone = messageEntry.clientPhone;
@@ -101,7 +102,7 @@ export class FlowsService {
     const templateName:string = NAME_TEMPLATES.NOTIFY_PAYMENT;
     const languageCode = 'es';
     const headerImageUrl = ctx.imageVoucher ? ctx.imageVoucher : null;
-    const bodyParameters = ['SERGIO TALLEDO CORONADO','MI MEJOR VERSIÓN', 'INTERCAMBIOS' , '120', '51947308823',]
+    const bodyParameters = [ctx.clientName,ctx.planSelected, ctx.modalitySelected, ctx.price, '51947308823',]
     const template = this.builderTemplate.buildTemplateMessage(clientPhone, templateName ,languageCode, headerImageUrl,bodyParameters);
     await this.senderService.sendMessages(template);
   }
@@ -132,7 +133,7 @@ export class FlowsService {
     ctx.packId = messageEntry.content.id;
     ctx.modalitySelected = messageEntry.content.title;
     ctx.planSelected = Utilities.findPlanDetails(ctx.packId,ctx.modalitySelected);
-    ctx.price = Utilities.obtenerPrecioPorPackId(ctx.packId);
+    ctx.price = Utilities.getPriceByPackId(ctx.packId);
     const clientPhone = messageEntry.clientPhone;
     const confirmTemplate = this.builderTemplate.buildTextMessage(clientPhone,`¡Genial ${ctx.clientName}!Has seleccionado el plan ${ctx.planSelected} en la modalidad ${ctx.modalitySelected} por S/. ${ctx.price}`);
     await this.senderService.sendMessages(confirmTemplate);
@@ -173,6 +174,7 @@ export class FlowsService {
   async confirmationSaleFlow(ctx:Message ,messageEntry: IParsedMessage) {
     ctx.status = PAYMENTSTATUS.ACCEPTED;
     let clientname = ctx.clientName;
+    let firstName =Utilities.getFirstName(clientname);
     let modalitySelected = ctx.modalitySelected;
     let planSelected = ctx.planSelected;
     let price = ctx.price;
@@ -185,7 +187,7 @@ export class FlowsService {
     let saleOrder = new SaleOrder(ctx);
     await this.googleSpreadsheetService.insertData(0,saleOrder);
     const clientPhone = messageEntry.clientPhone;
-    const message = '¡Felicidades! Tu compra ha sido confirmada, estos son los detalles de tu compra: \n\n' + `Cliente: ${clientname} \nModalidad: ${modalitySelected} \nPlan: ${planSelected} \nPrecio: S/. ${price} \nFecha de inicio: ${turno}`;
+    const message = `¡Felicidades ${firstName}! Tu compra ha sido confirmada, estos son los detalles de tu compra: \n\n` + `Cliente: ${clientname} \nModalidad: ${modalitySelected} \nPlan: ${planSelected} \nPrecio: S/. ${price} \nTurno: ${turno}`;
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
     await this.senderService.sendMessages(template);
     ctx.step = STEPS.INIT;

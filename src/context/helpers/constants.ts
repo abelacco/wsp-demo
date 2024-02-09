@@ -69,8 +69,8 @@ export const MODALITY = {
 export const PLAN = {
   MMV: 
     {
-      PLAN_NAME: 'Mi Mejor Versión',
-      WPS_NAME:'Mi Mejor Versión 🧘‍♀️',
+      PLAN_NAME: 'MI MEJOR VERSIÓN',
+      WPS_NAME:'MI MEJOR VERSIÓN 🧘‍♀️',
     },
   APLV: 
     {
@@ -79,8 +79,8 @@ export const PLAN = {
     },
   MLI: 
     {
-      PLAN_NAME: 'Mi Luna Interior',
-      WPS_NAME:'Mi Luna Interior🌛',
+      PLAN_NAME: 'MI LUNA INTERIOR',
+      WPS_NAME:'MI LUNA INTERIOR🌛',
     },
 }
 

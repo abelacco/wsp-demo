@@ -18,21 +18,14 @@ export class MongoDbService implements IMessageDao {
   
   async findOrCreate(clientPhone: string): Promise<Message> {
     try{
-      const message = await this._messageModel.findOne({
+      const ctx = await this._messageModel.findOne({
         clientPhone: clientPhone,
-        $and: [
-          {
-            status: PAYMENTSTATUS.PENDING,
-          },
-        ]
       });
   
-      if (!message) {
+      if (!ctx) {
         try {
           const createMessage = new this._messageModel({
             clientPhone: clientPhone,
-
-            // provider: '',
           });
           await createMessage.save();
           return createMessage;
@@ -42,7 +35,7 @@ export class MongoDbService implements IMessageDao {
         }
       }
   
-      return message;
+      return ctx;
     }
     catch(error){
       if (error instanceof mongo.MongoError) mongoExceptionHandler(error);

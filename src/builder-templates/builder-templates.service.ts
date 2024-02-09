@@ -112,7 +112,7 @@ export class BuilderTemplatesService {
         return message;
     }
 
-     buildTemplateMessage(phoneNumber: string, templateName: string, languageCode: string, headerImageUrl: string | undefined, bodyTexts: string[]): TemplateMessage {
+     buildTemplateMessage(phoneNumber: string, templateName: string, languageCode: string, headerImageUrl: string | undefined, bodyTexts: any[]): TemplateMessage {
         const components: TemplateComponent[] = [];
 
         // Añadir header con imagen si se proporciona
