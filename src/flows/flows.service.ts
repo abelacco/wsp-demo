@@ -123,6 +123,7 @@ export class FlowsService {
     ctx.price = Utilities.getPriceByPackId(ctx.packId);
     const clientPhone = messageEntry.clientPhone;
     const availableDate = await this.googleSpreadsheetService.getAvailableDay();
+    ctx.shift = availableDate;
     const message = ` El cupo disponible más próximo es el ${availableDate}`;
     await this.senderService.sendMessages(this.builderTemplate.buildTextMessage(clientPhone,message));
     const bodyText = '¿Deseas continuar?';
@@ -136,10 +137,6 @@ export class FlowsService {
 
 
   async choosePaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    ctx.packId = messageEntry.content.id;
-    ctx.modalitySelected = messageEntry.content.title;
-    ctx.planSelected = Utilities.findPlanDetails(ctx.packId,ctx.modalitySelected);
-    ctx.price = Utilities.getPriceByPackId(ctx.packId);
     const clientPhone = messageEntry.clientPhone;
     const confirmTemplate = this.builderTemplate.buildTextMessage(clientPhone,`¡Genial ${ctx.clientName}!Has seleccionado el plan ${ctx.planSelected} en la modalidad ${ctx.modalitySelected} por S/. ${ctx.price}`);
     await this.senderService.sendMessages(confirmTemplate);
@@ -184,12 +181,10 @@ export class FlowsService {
     let modalitySelected = ctx.modalitySelected;
     let planSelected = ctx.planSelected;
     let price = ctx.price;
-    let turno = '12/02/2024';
-    ctx.shift = turno;
-    let purchase = '09/02/2024'
-    ctx.purchase = purchase;
-    let code = '123456';
-    ctx.code = code;
+    let turno = ctx.shift;
+    ctx.purchase = Utilities.today()
+    // let code = '123456';
+    // ctx.code = code;
     let saleOrder = new SaleOrder(ctx);
     await this.googleSpreadsheetService.insertData(0,saleOrder);
     const clientPhone = messageEntry.clientPhone;

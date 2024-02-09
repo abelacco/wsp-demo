@@ -3,7 +3,6 @@ import { Utilities } from "src/context/helpers/utils";
 export class SaleOrder {
     compra: string;
     turno: string;
-    code: string;
     celular: string;
     nombre: string;
     pack_id: string;
@@ -15,7 +14,6 @@ export class SaleOrder {
     constructor(message: any) {
       this.compra = message.purchase || '';
       this.turno = message.shift || ''; // Define cómo establecer esto basado en tu lógica de aplicación
-      this.code = message.code || '';
       this.celular = message.clientPhone || '';
       this.nombre = Utilities.parseFullName(message.clientName) || '';
       this.pack_id = message.packId || '';
