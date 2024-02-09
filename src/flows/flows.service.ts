@@ -39,7 +39,7 @@ export class FlowsService {
     const clientPhone = messageEntry.clientPhone;
     const message = 'Estos son nuestros planes nutricionales';
     const type = MULTIMEDIA_TYPES.DOCUMENT
-    const templatePdf = this.builderTemplate.buildMultimediaMessage(clientPhone,'document' , {link: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', caption: message , filename: 'planes_nutricionales.pdf'});
+    const templatePdf = this.builderTemplate.buildMultimediaMessage(clientPhone,'document' , {id:'794058159198797', caption: message , filename: 'planes_nutricionales.pdf'});
     await this.senderService.sendMessages(templatePdf);
     // const messageInfo = 'Tómate tu tiempo para revisar los planes nutricionales, cuando estés list@ para continuar, selecciona el botón de "Continuar"';
     // const templateInfo = this.builderTemplate.buildTextMessage(clientPhone,messageInfo);

@@ -14,11 +14,7 @@ export const MENU = [
       {
         id: 'menu_2',
         title: 'Adquiere tu plan',
-      },
-      // {
-      //   id: '3',
-      //   title: 'Recetarios y Guías',
-      // }
+      }
     ]
   }
 ];
@@ -41,16 +37,20 @@ export const PACK = [
     rows: [
       {
         id: PACK_ID.MMV_INTERCAMBIOS,
-        title: 'INTERCAMBIOS *S/. 120*',
-        description: 'Incluye 5 intercambios',
+        title: 'INTERCAMBIOS',
+        description: 'Precio: S/. 120',
       },
       {
         id: PACK_ID.MMV_SEMANA,
-        title: 'MENÚ SEMANA *S/. 200',
+        title: 'MENÚ SEMANA',
+        description: 'Precio: S/. 200',
+
       },
       {
         id: PACK_ID.MMV_MES,
-        title: 'MENÚ MES *S/. 400*',
+        title: 'MENÚ MES',
+        description: 'Precio: S/. 400',
+
       }
     ]
   },
@@ -59,15 +59,21 @@ export const PACK = [
     rows: [
       {
         id: PACK_ID.APLV_INTERCAMBIOS,
-        title: 'INTERCAMBIOS *S/. 150*',
+        title: 'INTERCAMBIOS',
+        description: 'Precio: S/. 150',
+
       },
       {
         id: PACK_ID.APLV_SEMANA,
-        title: 'MENÚ SEMANA *S/. 280',
+        title: 'MENÚ SEMANA',
+        description: 'Precio: S/. 280',
+
       },
       {
         id: PACK_ID.APLV_MES,
-        title: 'MENÚ MES *S/. 500*',
+        title: 'MENÚ MES',
+        description: 'Precio: S/. 500',
+
       }
     ]
   },
@@ -76,15 +82,21 @@ export const PACK = [
     rows: [
       {
         id: PACK_ID.MLI_INTERCAMBIOS,
-        title: 'INTERCAMBIOS *S/. 150*',
+        title: 'INTERCAMBIOS',
+        description: 'Precio: S/. 150',
+
       },
       {
         id: PACK_ID.MLI_SEMANA,
-        title: 'MENÚ SEMANA *S/. 280',
+        title: 'MENÚ SEMANA',
+        description: 'Precio: S/. 280',
+
       },
       {
         id: PACK_ID.MLI_MES,
-        title: 'MENÚ MES *S/. 500*',
+        title: 'MENÚ MES',
+        description: 'Precio: S/. 500',
+
       }
     ]
   }

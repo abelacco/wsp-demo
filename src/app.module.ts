@@ -13,6 +13,7 @@ import { FlowsModule } from './flows/flows.module';
 import { GeneralServicesModule } from './general-services/general-services.module';
 import { UserModule } from './user/user.module';
 import { BotModule } from './bot/bot.module';
+import { GoogleSpreadsheetModule } from './google-spreadsheet/google-spreadsheet.module';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { BotModule } from './bot/bot.module';
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.MONGODB),
-    WspWebHookModule, SenderModule, CtxModule, BuilderTemplatesModule, FlowsModule, GeneralServicesModule , UserModule,BotModule ],
+    WspWebHookModule, SenderModule, CtxModule, BuilderTemplatesModule, FlowsModule, GeneralServicesModule , UserModule,BotModule, GoogleSpreadsheetModule ],
   controllers: [AppController],
   providers: [AppService],
 })

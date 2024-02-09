@@ -84,7 +84,7 @@ export class BuilderTemplatesService {
         type: 'audio' | 'document' | 'image' | 'sticker' | 'video',
         options: {
             id?: string;
-            link: string;
+            link?: string;
             caption?: string;
             filename?: string;
             provider?: string;
