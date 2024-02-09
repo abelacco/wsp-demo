@@ -9,5 +9,10 @@ export class GoogleSpreadsheetController {
   insertData(@Body() data: any) {
     return this.googleSpreadsheetService.insertData(data.sheetIndex, data.rowData);
   }
+
+  @Get('availableday')
+  getAvailableDay() {
+    return this.googleSpreadsheetService.getAvailableDay();
+  }
 }
   

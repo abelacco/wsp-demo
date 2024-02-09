@@ -117,13 +117,19 @@ export class FlowsService {
   }
 
   async confirmAppointmentFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    ctx.packId = messageEntry.content.id;
+    ctx.modalitySelected = messageEntry.content.title;
+    ctx.planSelected = Utilities.findPlanDetails(ctx.packId,ctx.modalitySelected);
+    ctx.price = Utilities.getPriceByPackId(ctx.packId);
     const clientPhone = messageEntry.clientPhone;
-    const availableDate = '12/12/2021';
+    const availableDate = await this.googleSpreadsheetService.getAvailableDay();
     const message = ` El cupo disponible más próximo es el ${availableDate}`;
     await this.senderService.sendMessages(this.builderTemplate.buildTextMessage(clientPhone,message));
     const bodyText = '¿Deseas continuar?';
     const buttons = BTN_OPT_CONFIRM_GENERAL;
     const template = this.builderTemplate.buildInteractiveButtonMessage(clientPhone,bodyText,buttons);
+    ctx.step = STEPS.CONFIRM_DATE_SHIFT;
+    await this.ctxService.updateCtx(ctx._id, ctx);
     await this.senderService.sendMessages(template);
   }
 
@@ -179,7 +185,7 @@ export class FlowsService {
     let planSelected = ctx.planSelected;
     let price = ctx.price;
     let turno = '12/02/2024';
-    ctx.turn = turno;
+    ctx.shift = turno;
     let purchase = '09/02/2024'
     ctx.purchase = purchase;
     let code = '123456';
@@ -193,6 +199,16 @@ export class FlowsService {
     ctx.step = STEPS.INIT;
     await this.ctxService.updateCtx(ctx._id, ctx);
   }
+
+   async NOT_VALID(ctx:Message ,messageEntry: IParsedMessage) {
+    const clientPhone = messageEntry.clientPhone;
+    const message = `Lo siento, no es un mensaje válido, intento de nuevo. Intento ${ctx.attempts}'`;
+    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
+    ctx.attempts = ctx.attempts + 1;
+    await this.ctxService.updateCtx(ctx._id, ctx);
+    await this.senderService.sendMessages(template);
+  }
+
 
    async getWhatsappMediaUrl({ imageId }: { imageId: string }) {
     const getImage = await axios.get(

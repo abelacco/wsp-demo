@@ -29,7 +29,7 @@ export class Message extends Document {
 
     @Prop({
     })
-    turn: string;
+    shift: string;
 
     @Prop({
         type: String,

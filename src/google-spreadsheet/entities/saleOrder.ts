@@ -14,7 +14,7 @@ export class SaleOrder {
   
     constructor(message: any) {
       this.compra = message.purchase || '';
-      this.turno = message.turn || ''; // Define cómo establecer esto basado en tu lógica de aplicación
+      this.turno = message.shift || ''; // Define cómo establecer esto basado en tu lógica de aplicación
       this.code = message.code || '';
       this.celular = message.clientPhone || '';
       this.nombre = Utilities.parseFullName(message.clientName) || '';

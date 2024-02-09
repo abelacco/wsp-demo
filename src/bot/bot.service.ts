@@ -34,6 +34,7 @@ export class BotService {
     Logger.log( `THE ACTION IS: ${action} `, 'BOT SERVICE');
     if(action === 'NOT_VALID') {
       Logger.log( `ACTION NOT VALID`, 'BOT SERVICE');
+      await this.flowsService[action](ctx,parsedMessage);
       return 'OK';
     } else {
        await this.flowsService[action](ctx,parsedMessage);

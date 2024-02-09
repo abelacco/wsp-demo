@@ -1,3 +1,4 @@
+import e from 'express';
 import { IParsedMessage } from '../entities/messageParsed';
 import { WSP_MESSAGE_TYPES } from 'src/common/constants';
 import { Message } from 'src/context/entities/message.entity';
@@ -76,12 +77,23 @@ export const receivedMessageValidator = (
           }
         }
         if (packSelected) {
-          return 'choosePaymentFlow';
+          return 'confirmAppointmentFlow';
         } else {
           return 'NOT_VALID';
         }
       }
     return 'NOT_VALID';
+    case STEPS.CONFIRM_DATE_SHIFT:
+      if(isInteractiveMessage(entryMessage)) {
+        if(hasSpecificContentId(entryMessage,BTN_ID.CONFIRM_GENERAL) ) {
+          return 'choosePaymentFlow';
+        }else {
+          return 'NOT_VALID';
+        }
+      } else {
+        return 'NOT_VALID';
+      }
+
     case STEPS.PROVIDER_PAYMENT_SELECTED: // Estoy esperando que selecciones un proveedor de pago
       if(isInteractiveMessage(entryMessage) && hasSpecificContentId(entryMessage,BTN_ID.PAYMENT_YAPE) ) {
         return 'submitVoucherFlow';
