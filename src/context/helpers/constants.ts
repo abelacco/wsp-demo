@@ -8,13 +8,15 @@ export const MENU = [
         title: 'Información planes',
       },
       {
-        id: 'menu_1',
-        title: 'Renovar mi plan',
-      },
-      {
         id: 'menu_2',
         title: 'Adquiere tu plan',
-      }
+      },
+      {
+        id: 'menu_1',
+        title: 'Renovar mi plan',
+        description: '❌NO DISPONIBLE POR EL MOMENTO❌'
+      },
+
     ]
   }
 ];

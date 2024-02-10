@@ -78,6 +78,13 @@ export class FlowsService {
     await this.senderService.sendMessages(template);
   }
 
+  async cancelDniFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    const clientPhone = messageEntry.clientPhone;
+    const message = 'Vuelve a intentar con tu DNI';
+    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
+    await this.senderService.sendMessages(template);
+  }
+
   async retryAskDniFlow(ctx:Message ,messageEntry: IParsedMessage) {
     const clientPhone = messageEntry.clientPhone;
     const message = 'Vuelve a intentar con tu DNI';
@@ -134,6 +141,15 @@ export class FlowsService {
     await this.senderService.sendMessages(template);
   }
 
+  async cancelAppointmentFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    ctx.shift = null;
+    const clientPhone = messageEntry.clientPhone;
+    const message = 'Esperemos que nos podamos reencontrar.Recuerda que puedes escribirnos cuando quieras estamos 24/7 ¡Vuelve pronto! 😊 \n*Escribe menu para empezar nuevamente*';
+    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
+    await this.senderService.sendMessages(template);
+    ctx.step = STEPS.INIT;
+    await this.ctxService.updateCtx(ctx._id, ctx);
+  }
 
 
   async choosePaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
@@ -193,6 +209,18 @@ export class FlowsService {
     await this.senderService.sendMessages(template);
     ctx.step = STEPS.INIT;
     await this.ctxService.updateCtx(ctx._id, ctx);
+  }
+
+  async notValidPaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    if(ctx.attempts >= 3) {
+      await this.cancelAppointmentFlow(ctx,messageEntry);
+    }
+    const clientPhone = messageEntry.clientPhone;
+    const message = 'Lo siento, este no es un pago válido, sube una foto del comprobante de pago';
+    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
+    ctx.attempts = ctx.attempts + 1;
+    await this.ctxService.updateCtx(ctx._id, ctx);
+    await this.senderService.sendMessages(template);
   }
 
    async NOT_VALID(ctx:Message ,messageEntry: IParsedMessage) {

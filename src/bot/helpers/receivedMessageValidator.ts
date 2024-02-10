@@ -22,7 +22,7 @@ export const receivedMessageValidator = (
     case STEPS.INIT: // Respondo al primer saludo
       if (isTextMessage(entryMessage)) {
         // Debo llamar al servicio para responder
-        return 'initFlow';
+        return 'cancelAppointmentFlow';
       }
       // debo llamar al servicio para responder que no es el mensaje esperado
       return 'NOT_VALID';
@@ -32,7 +32,7 @@ export const receivedMessageValidator = (
           case 'menu_0':
             return 'servicesFlow';
           case 'menu_1':
-            return 'renovationPathFlow';
+            return 'NOT_VALID';
           case 'menu_2':
             return 'choosePackFlow';
           // case '3':
@@ -88,7 +88,7 @@ export const receivedMessageValidator = (
         if(hasSpecificContentId(entryMessage,BTN_ID.CONFIRM_GENERAL) ) {
           return 'choosePaymentFlow';
         }else {
-          return 'NOT_VALID';
+          return 'cancelAppointmentFlow';
         }
       } else {
         return 'NOT_VALID';
