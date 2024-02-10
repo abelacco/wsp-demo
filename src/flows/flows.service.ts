@@ -35,6 +35,8 @@ export class FlowsService {
     await this.senderService.sendMessages(template1);
     const template2 = this.builderTemplate.buildInteractiveListMessage(clientPhone,'Ver menú 🔎' , MENU , null ,message2 ,null);
     await this.senderService.sendMessages(template2);
+    const template3 = this.builderTemplate.buildTextMessage(clientPhone,'*ESTO ES UN BOT DE PRUEBA DESARROLLADO POR THE FAMILY BOT \nNO ES UN CANAL OFICIAL DE VENTA NI INFORMES DE LA DRA. DIANA OTERO, MAYOR INFORMACÓN DIRECTAMEN EN SUS RRSS*');
+    await this.senderService.sendMessages(template3);
     ctx.step = STEPS.CHOOSE_MENU_OPT;
     await this.ctxService.updateCtx(ctx._id, ctx);
   }
