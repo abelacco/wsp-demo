@@ -37,6 +37,9 @@ export const receivedMessageValidator = (
           case 'menu_1':
             return 'NOT_VALID';
           case 'menu_2':
+            if(ctx.dni === null || ctx.dni === '' || ctx.dni === undefined) {
+              return 'askDniFlow';
+            }
             return 'choosePackFlow';
           // case '3':
           //   return 'recipePathFlow';

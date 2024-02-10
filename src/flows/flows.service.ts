@@ -111,7 +111,7 @@ export class FlowsService {
     const templateName:string = NAME_TEMPLATES.NOTIFY_PAYMENT;
     const languageCode = 'es';
     const headerImageUrl = ctx.imageVoucher ? ctx.imageVoucher : null;
-    const bodyParameters = [ctx.clientName,ctx.planSelected, ctx.modalitySelected, ctx.price, '51947308823',]
+    const bodyParameters = [ctx.clientName || 'NN',ctx.planSelected, ctx.modalitySelected, ctx.price, '51947308823',]
     const template = this.builderTemplate.buildTemplateMessage(clientPhone, templateName ,languageCode, headerImageUrl,bodyParameters);
     await this.senderService.sendMessages(template);
   }
