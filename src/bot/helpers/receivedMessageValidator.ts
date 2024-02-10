@@ -18,11 +18,14 @@ export const receivedMessageValidator = (
   entryMessage: IParsedMessage,
 ) => {
   let currentStep = ctx.step;
+  if( typeof entryMessage.content === 'string' && entryMessage.content.toUpperCase() === 'RESET') {
+    return 'cancelAppointmentFlow';
+  }
   switch (currentStep) {
     case STEPS.INIT: // Respondo al primer saludo
       if (isTextMessage(entryMessage)) {
         // Debo llamar al servicio para responder
-        return 'cancelAppointmentFlow';
+        return 'initFlow';
       }
       // debo llamar al servicio para responder que no es el mensaje esperado
       return 'NOT_VALID';
