@@ -88,7 +88,8 @@ export class FlowsService {
   async getDateFlow(ctx:Message ,messageEntry: IParsedMessage) {
     ctx.amount = messageEntry.content;
     const month = Utilities.getMonth().toString(); // Convert month to string
-    const acummulated = await this.googleSpreadsheetService.getAccumulatedByExpense(ctx.expenseTypeSelected, month);
+    let acummulated = await this.googleSpreadsheetService.getAccumulatedByExpense(ctx.expenseTypeSelected, month);
+    acummulated.length === 0 ? acummulated = [{expenseType: ctx.expenseTypeSelected, total: 0}] : acummulated;
     const accumlatedCurrent = Number(acummulated[0].total) + ctx.amount;
     const limit = ctx.limit;
     if(accumlatedCurrent > limit) {
