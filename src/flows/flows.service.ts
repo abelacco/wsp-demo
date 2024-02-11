@@ -88,14 +88,13 @@ export class FlowsService {
   async getDateFlow(ctx:Message ,messageEntry: IParsedMessage) {
     ctx.amount = messageEntry.content;
     const month = Utilities.getMonth().toString(); // Convert month to string
-    const acummulated = Number(await this.googleSpreadsheetService.getAccumulatedByExpense(ctx.expenseTypeSelected, month));
-    const accumlatedCurrent = acummulated[0].total + ctx.amount;
+    const acummulated = await this.googleSpreadsheetService.getAccumulatedByExpense(ctx.expenseTypeSelected, month);
+    const accumlatedCurrent = Number(acummulated[0].total) + ctx.amount;
     const limit = ctx.limit;
     if(accumlatedCurrent > limit) {
       const message = `El monto acumulado de la partida ${ctx.expenseTypeSelected} es de S/. ${acummulated[0].total} más S/. ${ctx.amount} total de S/. ${accumlatedCurrent}, superando el límite de S/. ${limit}`;
       const template = this.builderTemplate.buildTextMessage(messageEntry.clientPhone,message);
       await this.senderService.sendMessages(template);
-      return;
     }
     const clientPhone = messageEntry.clientPhone;
     const message = '¿Esta compra es de hoy?';
