@@ -141,6 +141,7 @@ export class FlowsService {
     ctx.amount = 0;
     ctx.registerDate = '';
     ctx.step = STEPS.NEW_EXPENSE;
+    await this.ctxService.updateCtx(ctx._id, ctx);
     await this.senderService.sendMessages(template);
 
   }
