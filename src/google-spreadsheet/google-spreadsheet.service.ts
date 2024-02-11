@@ -121,7 +121,7 @@ export class GoogleSpreadsheetService {
       }
     }
 
-    async getAccumulatedByExpense(month: string, year:string ='24', expenseType:string): Promise<any[]> {
+    async getAccumulatedByExpense( expenseType:string,month: string, year:string ='24'): Promise<any[]> {
       try {
         await this.doc.loadInfo(); // Carga la información de la hoja de cálculo
         const sheet = this.doc.sheetsByTitle['egresos']; // Reemplaza con el título real de tu hoja

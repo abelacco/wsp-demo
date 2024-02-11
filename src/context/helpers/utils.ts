@@ -43,12 +43,12 @@ export class Utilities {
         return todayString;
     }
 
-    static getMonth()
-    {
+    static getMonth() {
         const today = new Date();
-        const month = today.getMonth() + 1;
-        return month;
+        const month = today.getMonth() + 1; // getMonth() devuelve un valor de 0 a 11, por lo que se suma 1
+        return String(month).padStart(2, '0'); // Asegura que el mes siempre tenga dos dígitos
     }
+    
 
     static generateOneSectionTemplate(menuTitle:string, items:any): InteractiveListSection[] {
             return [
