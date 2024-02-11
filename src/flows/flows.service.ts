@@ -140,7 +140,7 @@ export class FlowsService {
     ctx.description = '';
     ctx.amount = 0;
     ctx.registerDate = '';
-    ctx.step = STEPS.INIT;
+    ctx.step = STEPS.NEW_EXPENSE;
     await this.senderService.sendMessages(template);
 
   }
