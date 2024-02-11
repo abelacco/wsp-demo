@@ -7,29 +7,29 @@ export class Message extends Document {
 
     @Prop({
     })
-    clientId: string;
+    expenseTypeSelected: string;
 
     @Prop({
     })
-    clientName: string;
-
-
-    @Prop({
-    })
-    clientPhone: string;
+    registerDate: string;
 
     @Prop({
     })
-    dni: string;
-
-
-    @Prop({
-    })
-    purchase: string;
+    workername: string;
 
     @Prop({
     })
-    shift: string;
+    workerPhone: string;
+
+    @Prop({
+    })
+    description: string;
+
+    @Prop({
+    })
+    amount: number;
+
+
 
     @Prop({
         type: String,
@@ -38,12 +38,6 @@ export class Message extends Document {
     })
     step: string;
 
-    @Prop({
-        type: String,
-        enum: PAYMENTSTATUS,
-        default: PAYMENTSTATUS.PENDING
-    })
-    status: string;
 
     @Prop({
         default: 0
@@ -52,32 +46,10 @@ export class Message extends Document {
 
     @Prop({
     })
-    packId: string;
-
-    @Prop({
-    })
-    modalitySelected: string;
-
-    @Prop({
-    })
-    planSelected: string;
-
-    @Prop({
-    })
-    price: number;
-
-    @Prop({
-    })
-    paymentMethod: string;
-
-    @Prop({
-    })
-    imageVoucher: string;
-
-    @Prop({
-    })
-    code: string;
+    limit: number;
 
 }
+
+
 
 export const MessageSchema = SchemaFactory.createForClass(Message);

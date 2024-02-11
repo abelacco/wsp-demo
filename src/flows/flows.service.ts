@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BuilderTemplatesService } from 'src/builder-templates/builder-templates.service';
-import { BTN_OPT_CONFIRM_DNI, BTN_OPT_CONFIRM_GENERAL, BTN_OPT_PAYMENT, MENU, NAME_TEMPLATES, PACK, PAYMENTSTATUS, STEPS } from 'src/context/helpers/constants';
+import { BTN_ID, BTN_OPT_CONFIRM_DNI, BTN_OPT_CONFIRM_GENERAL, BTN_OPT_CURRENT_DATE, BTN_OPT_PAYMENT, MENU, NAME_TEMPLATES, PACK, PAYMENTSTATUS, STEPS } from 'src/context/helpers/constants';
 import { Message } from 'src/context/entities/message.entity';
-import { MULTIMEDIA_TYPES } from 'src/common/constants';
 import { UserService } from 'src/user/user.service';
 import { GeneralServicesService } from 'src/general-services/general-services.service';
 import axios from 'axios';
@@ -11,7 +10,7 @@ import { CtxService } from 'src/context/ctx.service';
 import { SenderService } from 'src/sender/sender.service';
 import { Utilities } from 'src/context/helpers/utils';
 import { GoogleSpreadsheetService } from 'src/google-spreadsheet/google-spreadsheet.service';
-import { SaleOrder } from 'src/google-spreadsheet/entities';
+import { Expense } from 'src/google-spreadsheet/entities';
 
 @Injectable()
 export class FlowsService {
@@ -27,190 +26,131 @@ export class FlowsService {
     }
   async initFlow(ctx:Message ,messageEntry: IParsedMessage) {
     // aca debo llamar al flow para registar al cliente , si es nuevo o si ya existe
-    const client = await this.userService.findOrCreateClient({phone:messageEntry.clientPhone, name:messageEntry.clientName});
     const clientPhone = messageEntry.clientPhone;
-    const message1 = `Hola ${client.name}, soy el asistente virtual de Diana Otero`;
-    const message2 = 'Dando click en el boton de Menú podrás ver las opciones que tengo para ti';
+    const worker = await this.googleSpreadsheetService.getUser(clientPhone)
+    if(!worker) {
+      const message = 'Este no es un número registrado, por favor comunícate con el administrador';
+      await this.senderService.sendMessages(this.builderTemplate.buildTextMessage(clientPhone,message));
+      return 
+    }
+    const workerName = worker.name;
+    ctx.workername = workerName;
+    ctx.workerPhone = worker.phoneNumber;
+    const message1 = `Hola ${workerName}, soy ControllerBot, el asistente virtual de Doers, yo te ayudaré a registrar tus compras🤖`;
+    const message2 = 'Cada vez que deseas ingresar una nueva compra debes escribir *egreso*';
     const template1 = this.builderTemplate.buildTextMessage(clientPhone,message1);
     await this.senderService.sendMessages(template1);
-    const template2 = this.builderTemplate.buildInteractiveListMessage(clientPhone,'Ver menú 🔎' , MENU , null ,message2 ,null);
+    const template2 = this.builderTemplate.buildTextMessage(clientPhone,message2);
     await this.senderService.sendMessages(template2);
-    const template3 = this.builderTemplate.buildTextMessage(clientPhone,'*ESTO ES UN BOT DE PRUEBA DESARROLLADO POR THE FAMILY BOT \nNO ES UN CANAL OFICIAL DE VENTA NI INFORMES DE LA DRA. DIANA OTERO, MAYOR INFORMACÓN DIRECTAMEN EN SUS RRSS*');
+    const template3 = this.builderTemplate.buildTextMessage(clientPhone,'*ESTO ES UN BOT DE PRUEBA DESARROLLADO POR THE FAMILY BOT \nNO ES UN CANAL OFICIAL DE DOERS, MAYOR INFORMACÓN DIRECTAMEN EN SUS RRSS*');
     await this.senderService.sendMessages(template3);
-    ctx.step = STEPS.CHOOSE_MENU_OPT;
+    await this.ctxService.updateCtx(ctx._id, ctx);
+    await this.listExpensesFlow(ctx,messageEntry);
+  }
+
+  async listExpensesFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    const clientPhone = messageEntry.clientPhone;
+    const expenses = await this.googleSpreadsheetService.getExpenseTypeWithLimits();
+    const buttonText = 'Ver mi partidas';
+    const sections = Utilities.generateOneSectionTemplate('Lista de partidas',expenses); // Wrap sections inside an array
+    const headerText = 'Elige la partida que deseas registrar';
+    const bodyText = 'Para escoger una partida, selecciona el botón de "Ve mi partidas"';
+    const message = 'Selecciona una opción';
+    const template = this.builderTemplate.buildInteractiveListMessage(clientPhone,buttonText ,sections, headerText, bodyText ,message);
+    await this.senderService.sendMessages(template);
+    ctx.step = STEPS.EXPENSETYPE_SELECTED;
     await this.ctxService.updateCtx(ctx._id, ctx);
   }
 
-  async servicesFlow(ctx:Message ,messageEntry: IParsedMessage) {
+  async getDescriptionFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    ctx.expenseTypeSelected = messageEntry.content.title;
+    const expenses = await this.googleSpreadsheetService.getExpenseTypeWithLimits();
+    const limit = expenses.find(expense => expense.expenseType === ctx.expenseTypeSelected).limit;
+    ctx.limit = limit;
     const clientPhone = messageEntry.clientPhone;
-    const message = 'Estos son nuestros planes nutricionales';
-    const type = MULTIMEDIA_TYPES.DOCUMENT
-    const templatePdf = this.builderTemplate.buildMultimediaMessage(clientPhone,'document' , {id:'794058159198797', caption: message , filename: 'planes_nutricionales.pdf'});
-    await this.senderService.sendMessages(templatePdf);
-    // const messageInfo = 'Tómate tu tiempo para revisar los planes nutricionales, cuando estés list@ para continuar, selecciona el botón de "Continuar"';
-    // const templateInfo = this.builderTemplate.buildTextMessage(clientPhone,messageInfo);
-    // await this.senderService.sendMessages(templateInfo);
-    const confirmMessagebtn = 'Tómate tu tiempo para revisar los planes nutricionales, cuando estés list@ para continuar, selecciona el botón de "Continuar"';
-    const confirmOptions = BTN_OPT_CONFIRM_GENERAL;
-    const templateContinue = this.builderTemplate.buildInteractiveButtonMessage(clientPhone,confirmMessagebtn, confirmOptions);
-    await this.senderService.sendMessages(templateContinue);
-    ctx.step = STEPS.CONTINUE_PURCHASE;
-    await this.ctxService.updateCtx(ctx._id, ctx);
-  }
-
-  async askDniFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    const clientPhone = messageEntry.clientPhone;
-    const message = '¡Genial! Para continuar con tu compra, ingresa tu DNI para registrarte ✅';
+    const message = 'Ingresa la descripción del gasto';
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
     await this.senderService.sendMessages(template);
-    ctx.step = STEPS.PUT_DNI;
+    ctx.step = STEPS.DESCRIPTION_INSERTED;
     await this.ctxService.updateCtx(ctx._id, ctx);
   }
 
-  async confirmDniFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    const dniInfo = await this.generalService.findDocument(messageEntry.content);
-    const fullname = `${dniInfo.nombres} ${dniInfo.apellidoPaterno} ${dniInfo.apellidoMaterno}`
-    ctx.dni = dniInfo.dni;
-    ctx.clientName = fullname;
-    await this.ctxService.updateCtx(ctx._id, ctx);
+  async getAmountFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    ctx.description = messageEntry.content;
     const clientPhone = messageEntry.clientPhone;
-    const message = `¿Eres ${fullname}?`;
-    const buttons = BTN_OPT_CONFIRM_DNI;
-    const template =this.builderTemplate.buildInteractiveButtonMessage(clientPhone,message,buttons);
-    await this.senderService.sendMessages(template);
-  }
-
-  async cancelDniFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    const clientPhone = messageEntry.clientPhone;
-    const message = 'Vuelve a intentar con tu DNI';
+    const message = 'Ingresa el monto de la partida';
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
     await this.senderService.sendMessages(template);
-  }
-
-  async retryAskDniFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    const clientPhone = messageEntry.clientPhone;
-    const message = 'Vuelve a intentar con tu DNI';
-    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
-    await this.senderService.sendMessages(template);
-  }
-
-  async choosePackFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    const clientPhone = messageEntry.clientPhone;
-    const buttonText = 'Ver packs';
-    const sections = PACK;
-    const headerText = 'Elige el pack que más te convenga';
-    const bodyText = 'Para escoger un pack, selecciona el botón de "Ver packs"';
-    const template = this.builderTemplate.buildInteractiveListMessage(clientPhone,buttonText ,sections, headerText, bodyText ,null);
-    await this.senderService.sendMessages(template);
-    ctx.step = STEPS.CHOOSE_PACK_OPT;
+    ctx.step = STEPS.AMOUNT_INSERTED;
     await this.ctxService.updateCtx(ctx._id, ctx);
   }
 
-  async notifyPaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
+  async getDateFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    ctx.amount = messageEntry.content;
+    const month = Utilities.getMonth().toString(); // Convert month to string
+    const acummulated = await this.googleSpreadsheetService.getAccumulatedByExpense(month,null,ctx.expenseTypeSelected);
+    const limit = ctx.limit;
+    if(acummulated[0].total > limit) {
+      const message = `El monto acumulado de la partida ${ctx.expenseTypeSelected} es de S/. ${acummulated[0].total}, superando el límite de S/. ${limit}`;
+      const template = this.builderTemplate.buildTextMessage(messageEntry.clientPhone,message);
+      await this.senderService.sendMessages(template);
+      return;
+    }
     const clientPhone = messageEntry.clientPhone;
-    const templateName:string = NAME_TEMPLATES.NOTIFY_PAYMENT;
-    const languageCode = 'es';
-    const headerImageUrl = ctx.imageVoucher ? ctx.imageVoucher : null;
-    const bodyParameters = [ctx.clientName || 'NN',ctx.planSelected, ctx.modalitySelected, ctx.price, '51947308823',]
-    const template = this.builderTemplate.buildTemplateMessage(clientPhone, templateName ,languageCode, headerImageUrl,bodyParameters);
+    const message = '¿Esta compra es de hoy?';
+    const buttons = BTN_OPT_CURRENT_DATE
+    const template = this.builderTemplate.buildInteractiveButtonMessage(clientPhone,message,buttons);
     await this.senderService.sendMessages(template);
+    ctx.step = STEPS.DATE_SELECTED;
+    await this.ctxService.updateCtx(ctx._id, ctx);
   }
 
-  async notifyNewConversationFlow(ctx:Message ,messageEntry: IParsedMessage) {
+  async getDifferentDateFlow(ctx:Message ,messageEntry: IParsedMessage) {
     const clientPhone = messageEntry.clientPhone;
-    const templateName:string = NAME_TEMPLATES.NEW_CONVERSATION;
-    const languageCode = 'es';
-    const bodyParameters = ['51947308823',]
-    const template = this.builderTemplate.buildTemplateMessage(clientPhone, templateName ,languageCode, null ,bodyParameters);
+    const message = 'Ingresa la fecha de la compra en formato DD/MM/AAAA';
+    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
     await this.senderService.sendMessages(template);
+    ctx.step = STEPS.CONFIRM_EXPENSE;
+    await this.ctxService.updateCtx(ctx._id, ctx);
   }
 
-  async confirmAppointmentFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    ctx.packId = messageEntry.content.id;
-    ctx.modalitySelected = messageEntry.content.title;
-    ctx.planSelected = Utilities.findPlanDetails(ctx.packId,ctx.modalitySelected);
-    ctx.price = Utilities.getPriceByPackId(ctx.packId);
+  async confirmExpenseFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    if(messageEntry.content.id && messageEntry.content.id === BTN_ID.CURRENT_DATE) {
+      ctx.registerDate = Utilities.today()
+    } else {
+      ctx.registerDate = messageEntry.content;
+    }
     const clientPhone = messageEntry.clientPhone;
-    const availableDate = await this.googleSpreadsheetService.getAvailableDay();
-    ctx.shift = availableDate;
-    const message = ` El cupo disponible más próximo es el ${availableDate}`;
-    await this.senderService.sendMessages(this.builderTemplate.buildTextMessage(clientPhone,message));
-    const bodyText = '¿Deseas continuar?';
+    const message = `¿Desear cargar a la partida ${ctx.expenseTypeSelected} el monto de S/. ${ctx.amount} con la descripción ${ctx.description} en la fecha ${ctx.registerDate}?`;
     const buttons = BTN_OPT_CONFIRM_GENERAL;
-    const template = this.builderTemplate.buildInteractiveButtonMessage(clientPhone,bodyText,buttons);
-    ctx.step = STEPS.CONFIRM_DATE_SHIFT;
-    await this.ctxService.updateCtx(ctx._id, ctx);
+    const template = this.builderTemplate.buildInteractiveButtonMessage(clientPhone,message,buttons);
     await this.senderService.sendMessages(template);
+    ctx.step = STEPS.CONFIRM_EXPENSE;
+    await this.ctxService.updateCtx(ctx._id, ctx);
   }
+
+  async createExpenseFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    const clientPhone = messageEntry.clientPhone;
+    const expense = new Expense(ctx);
+    await this.googleSpreadsheetService.insertData(0,expense);
+    const message = 'Se ha registrado tu gasto con éxito';
+    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
+    ctx.expenseTypeSelected = '';
+    ctx.description = '';
+    ctx.amount = 0;
+    ctx.registerDate = '';
+    ctx.step = STEPS.INIT;
+    await this.senderService.sendMessages(template);
+
+  }
+
+    
 
   async cancelAppointmentFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    ctx.shift = null;
     const clientPhone = messageEntry.clientPhone;
-    const message = 'Esperemos que nos podamos reencontrar.Recuerda que puedes escribirnos cuando quieras estamos 24/7 ¡Vuelve pronto! 😊 \n*Escribe menu para empezar nuevamente*';
+    const message = 'Lo siento, no es posible continuar con la operación';
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
     await this.senderService.sendMessages(template);
-    ctx.step = STEPS.INIT;
-    await this.ctxService.updateCtx(ctx._id, ctx);
-  }
-
-
-  async choosePaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    const clientPhone = messageEntry.clientPhone;
-    const confirmTemplate = this.builderTemplate.buildTextMessage(clientPhone,`¡Genial ${ctx.clientName}!Has seleccionado el plan ${ctx.planSelected} en la modalidad ${ctx.modalitySelected} por S/. ${ctx.price}`);
-    await this.senderService.sendMessages(confirmTemplate);
-    const bodyText = 'Escoge el medio de pago que prefieras';
-    const buttons = BTN_OPT_PAYMENT;
-    const template = this.builderTemplate.buildInteractiveButtonMessage(clientPhone,bodyText,buttons);
-    await this.senderService.sendMessages(template);
-    ctx.step = STEPS.PROVIDER_PAYMENT_SELECTED;
-    await this.ctxService.updateCtx(ctx._id, ctx);
-  }
-
-  async submitVoucherFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    ctx.paymentMethod = messageEntry.content.id;
-    const clientPhone = messageEntry.clientPhone;
-    const message = '☝️ Para terminar, por favor realizar el yape al 997967943 a nombre de Diana Otero y enviar una captura del pago en este chat ';
-    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
-    await this.senderService.sendMessages(template);
-    // const message2 = 'Una vez realizado el pago, envía el comprobante de pago para continuar con el proceso';
-    // const template2 = this.builderTemplate.buildTextMessage(clientPhone,message2);
-    // await this.senderService.sendMessages(template2);
-    ctx.step = STEPS.SUBMIT_VOUCHER;
-    await this.ctxService.updateCtx(ctx._id, ctx);
-  }
-
-  async waitingPaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    const url = await this.getWhatsappMediaUrl({imageId: messageEntry.content});
-    const cloudinaryUrl =await this.generalService.uploadFromURL(url);
-    ctx.imageVoucher = cloudinaryUrl.url;
-    await this.notifyPaymentFlow(ctx,messageEntry);
-    const clientPhone = messageEntry.clientPhone;
-    const message = 'Estamos verificando tu comprobante de pago, esto tomará unos minutos por favor! 🙌';
-    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
-    await this.senderService.sendMessages(template);
-    ctx.step = STEPS.CONFIRM_PAYMENT;
-    await this.ctxService.updateCtx(ctx._id, ctx);
-  }
-
-  async confirmationSaleFlow(ctx:Message ,messageEntry: IParsedMessage) {
-    ctx.status = PAYMENTSTATUS.ACCEPTED;
-    let clientname = ctx.clientName;
-    let firstName =Utilities.getFirstName(clientname);
-    let modalitySelected = ctx.modalitySelected;
-    let planSelected = ctx.planSelected;
-    let price = ctx.price;
-    let turno = ctx.shift;
-    ctx.purchase = Utilities.today()
-    // let code = '123456';
-    // ctx.code = code;
-    let saleOrder = new SaleOrder(ctx);
-    await this.googleSpreadsheetService.insertData(0,saleOrder);
-    const clientPhone = messageEntry.clientPhone;
-    const message = `¡Felicidades ${firstName}! Tu compra ha sido confirmada, estos son los detalles de tu compra: \n\n` + `Cliente: ${clientname} \nModalidad: ${modalitySelected} \nPlan: ${planSelected} \nPrecio: S/. ${price} \nTurno: ${turno}`;
-    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
-    await this.senderService.sendMessages(template);
-    ctx.step = STEPS.INIT;
-    await this.ctxService.updateCtx(ctx._id, ctx);
   }
 
   async notValidPaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {

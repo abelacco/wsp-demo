@@ -1,3 +1,5 @@
+import { Utilities } from "./utils";
+
 //DATA PROPIA DE LA APLICACION
 export const MENU = [
   {
@@ -197,16 +199,12 @@ export const SCHUDULE_LIST = [
 
 export const STEPS = {
   INIT: '0',
-  CHOOSE_MENU_OPT: '1',
-  CONTINUE_PURCHASE: '2',
-  PUT_DNI: '3',
-  CHOOSE_PACK_OPT: '4',
-  PROVIDER_PAYMENT_SELECTED: '5',
-  SUBMIT_VOUCHER: '6',
-  CONFIRM_PAYMENT: '7',
-  SEND_CONFIRMATION: '8',
-  INFO_FOR_NEW_PROVIDER: '9',
-  CONFIRM_DATE_SHIFT: '10',
+  EXPENSETYPE_SELECTED: '1',
+  DESCRIPTION_INSERTED: '2',
+  AMOUNT_INSERTED: '3',
+  DATE_SELECTED: '4',
+  CONFIRM_EXPENSE: '5',
+  NEW_EXPENSE: '6',
 };
 
 // MENSAJES Y ID DE MENSAJES INTERACTIVOS
@@ -247,12 +245,14 @@ export const BTN_ID = {
   CONFIRM_GENERAL: 'confirm_general',
   CANCEL_GENERAL: 'cancel_general',
   PAYMENT_YAPE: 'yape_plin',
+  CURRENT_DATE: 'current_date',
+  DIFFERENT_DATE: 'different_date',
 }
 
 export const BTN_TITLE = {
   ACCEPT_DNI: 'Confirmar ✅',
   RETRY_DNI: 'Volver a intentar 👀',
-  CONFIRM_GENERAL: '✅ Continuar',
+  CONFIRM_GENERAL: '✅ Confirmar',
   CANCEL_GENERAL: '❌ Cancelar',
   PAYMENT_YAPE: 'Yape/Plin 📱',
 }
@@ -287,4 +287,15 @@ export const BTN_OPT_PAYMENT = [
     title: BTN_TITLE.PAYMENT_YAPE,
   },
 
+];
+
+export const BTN_OPT_CURRENT_DATE = [
+  {
+    id: BTN_ID.CURRENT_DATE,
+    title: 'Hoy',
+  },
+  {
+    id: BTN_ID.DIFFERENT_DATE,
+    title: 'Otra fecha',
+  },
 ];

@@ -1,3 +1,4 @@
+import { InteractiveListSection } from "src/builder-templates/interface";
 import { MODALITY, PACK, PACK_ID, PLAN } from "./constants";
 
 export class Utilities {
@@ -41,6 +42,26 @@ export class Utilities {
         const todayString = today.toLocaleDateString('es-PE');
         return todayString;
     }
+
+    static getMonth()
+    {
+        const today = new Date();
+        const month = today.getMonth() + 1;
+        return month;
+    }
+
+    static generateOneSectionTemplate(menuTitle:string, items:any): InteractiveListSection[] {
+            return [
+                    {
+                            title: menuTitle,
+                            rows: items.map((item:any, index:any) => ({
+                                id: `${index}`,
+                                title: item.expenseType,
+                                description: `Límite: ${item.limit}`,
+                            })),
+                    }
+            ]
+        }
 
 }
 

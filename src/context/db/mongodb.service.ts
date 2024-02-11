@@ -19,13 +19,13 @@ export class MongoDbService implements IMessageDao {
   async findOrCreate(clientPhone: string): Promise<Message> {
     try{
       const ctx = await this._messageModel.findOne({
-        clientPhone: clientPhone,
+        workerPhone: clientPhone,
       });
   
       if (!ctx) {
         try {
           const createMessage = new this._messageModel({
-            clientPhone: clientPhone,
+            workerPhone: clientPhone,
           });
           await createMessage.save();
           return createMessage;
