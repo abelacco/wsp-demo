@@ -49,9 +49,12 @@ export const receivedMessageValidator = (
       if (isInteractiveMessage(entryMessage)) {
         if(hasSpecificContentId(entryMessage,BTN_ID.CURRENT_DATE) ) {
           return 'confirmExpenseFlow';
-        } else {
+        } 
+        else {
           return 'getDifferentDateFlow';
         }
+      } else if(isTextMessage(entryMessage)) {
+        return 'confirmExpenseFlow';
       }
       return 'NOT_VALID';
     case STEPS.CONFIRM_EXPENSE:
@@ -59,7 +62,7 @@ export const receivedMessageValidator = (
         if(hasSpecificContentId(entryMessage,BTN_ID.CONFIRM_GENERAL) ) {
           return 'createExpenseFlow';
         }else {
-          return 'cancelAppointmentFlow';
+          return 'resetExpenseFlow';
         }
       } else {
         return 'NOT_VALID';

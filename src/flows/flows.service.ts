@@ -111,8 +111,6 @@ export class FlowsService {
     const message = 'Ingresa la fecha de la compra en formato DD/MM/AAAA';
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
     await this.senderService.sendMessages(template);
-    ctx.step = STEPS.CONFIRM_EXPENSE;
-    await this.ctxService.updateCtx(ctx._id, ctx);
   }
 
   async confirmExpenseFlow(ctx:Message ,messageEntry: IParsedMessage) {
@@ -146,7 +144,18 @@ export class FlowsService {
 
   }
 
-    
+  async resetExpenseFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    ctx.expenseTypeSelected = '';
+    ctx.description = '';
+    ctx.amount = 0;
+    ctx.registerDate = '';
+    ctx.step = STEPS.NEW_EXPENSE;
+    await this.ctxService.updateCtx(ctx._id, ctx);
+    const message = 'Se ha cancelado la operación';
+    const template = this.builderTemplate.buildTextMessage(messageEntry.clientPhone,message);
+    await this.senderService.sendMessages(template);
+    await this.listExpensesFlow(ctx,messageEntry);
+  }
 
   async cancelAppointmentFlow(ctx:Message ,messageEntry: IParsedMessage) {
     const clientPhone = messageEntry.clientPhone;
