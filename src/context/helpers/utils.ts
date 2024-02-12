@@ -62,6 +62,24 @@ export class Utilities {
                     }
             ]
         }
+    
+        static async isDatePast(fechaConsulta: string): Promise<boolean> {
+            // Obtener la hora actual considerando la zona horaria de Perú
+            const offsetPeru = -5; // UTC-5 para Perú
+            const nowUTC = new Date(new Date().toUTCString());
+            const ahoraPeru = new Date(nowUTC.setHours(nowUTC.getHours() + offsetPeru));
+        
+            // Formatear la fecha actual a YYYY-MM-DD para comparación
+            const fechaActual = ahoraPeru.toISOString().split('T')[0];
+        
+            // Convertir la fecha de consulta a formato YYYY-MM-DD para asegurar una comparación correcta
+            const [dia, mes, año] = fechaConsulta.split('/');
+            const fechaConsultaFormat = `${año}-${mes}-${dia}`;
+        
+            // Comparar si la fecha de consulta es anterior a la fecha actual
+            return fechaConsultaFormat < fechaActual;
+        }
+        
 
 }
 
