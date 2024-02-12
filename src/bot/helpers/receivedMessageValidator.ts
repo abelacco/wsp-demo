@@ -29,17 +29,24 @@ export const receivedMessageValidator = (
       }
       // debo llamar al servicio para responder que no es el mensaje esperado
       return 'NOT_VALID';
-    case STEPS.EXPENSETYPE_SELECTED: // Estoy esperando que selecciones un tipo de gasto
+    case STEPS.CHOOSE_DATE_OPT: // Estoy esperando que selecciones un tipo de gasto
       if (isInteractiveMessage(entryMessage)) {
-        return 'getDescriptionFlow'
+          if(hasSpecificContentId(entryMessage,BTN_ID.CURRENT_DATE)  ) {
+            return 'getDescriptionFlow';
+          } else if(hasSpecificContentId(entryMessage,BTN_ID.CURRENT_WEEK) ) {
+            return 'getDifferentDateFlow';
+          }
+          else {
+            return 'NOT_VALID';
+          }
       }
       return 'NOT_VALID';
-    case STEPS.DESCRIPTION_INSERTED: // Estoy esperando una confirmación de seguir con la compra
-        if(isTextMessage(entryMessage)) {
+    case STEPS.CHOOSE_HOUR_OPT: // Estoy esperando una confirmación de seguir con la compra
+        if(isInteractiveMessage(entryMessage)) {
           return 'getAmountFlow';
         }
         return 'NOT_VALID';
-    case STEPS.AMOUNT_INSERTED: // Estoy esperando que ingreses o confirmes tu DNI
+    case STEPS.CHOOSE_PAYMENT_OPT: // Estoy esperando que ingreses o confirmes tu DNI
       if (isTextMessage(entryMessage)){
         return 'getDateFlow';
       

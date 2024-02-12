@@ -7,29 +7,27 @@ export class Message extends Document {
 
     @Prop({
     })
-    expenseTypeSelected: string;
+    hourSelected: string;
 
     @Prop({
     })
-    registerDate: string;
+    paymentOptionSelected: string;
 
     @Prop({
     })
-    workername: string;
+    date: string;
 
     @Prop({
     })
-    workerPhone: string;
+    clientName: string;
 
     @Prop({
     })
-    description: string;
+    clientPhone: string;
 
     @Prop({
     })
     amount: number;
-
-
 
     @Prop({
         type: String,
@@ -45,8 +43,11 @@ export class Message extends Document {
     attempts: number;
 
     @Prop({
+        type: String,
+        enum: PAYMENTSTATUS,
+        default: PAYMENTSTATUS.PENDING
     })
-    limit: number;
+    paymentStatus: string;
 
 }
 

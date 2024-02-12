@@ -23,142 +23,6 @@ export const MENU = [
   }
 ];
 
-export const PACK_ID = {
-  MMV_INTERCAMBIOS: {
-    ID: 'MMV_INTERCAMBIOS',
-    precio: 120,
-  },
-  MMV_SEMANA: {
-    ID: 'MMV_SEMANA',
-    precio: 200,
-  },
-  MMV_MES: {
-    ID: 'MMV_MES',
-    precio: 400,
-  },
-  APLV_INTERCAMBIOS: {
-    ID: 'APLV_INTERCAMBIOS',
-    precio: 150,
-  },
-  APLV_SEMANA: {
-    ID: 'APLV_SEMANA',
-    precio: 280,
-  },
-  APLV_MES: {
-    ID: 'APLV_MES',
-    precio: 500,
-  },
-  MLI_INTERCAMBIOS: {
-    ID: 'MLI_INTERCAMBIOS',
-    precio: 150,
-  },
-  MLI_SEMANA: {
-    ID: 'MLI_SEMANA',
-    precio: 280,
-  },
-  MLI_MES: {
-    ID: 'MLI_MES',
-    precio: 500,
-  }
-};
-
-
-
-export const MODALITY = {
-  INTERCAMBIOS: 'INTERCAMBIOS',
-  SEMANA: 'SEMANA',
-  MES: 'MES',
-}
-
-export const PLAN = {
-  MMV: 
-    {
-      PLAN_NAME: 'MI MEJOR VERSIÓN',
-      WPS_NAME:'MI MEJOR VERSIÓN 🧘‍♀️',
-    },
-  APLV: 
-    {
-      PLAN_NAME: 'APLV',
-      WPS_NAME:'APLV 🤱',
-    },
-  MLI: 
-    {
-      PLAN_NAME: 'MI LUNA INTERIOR',
-      WPS_NAME:'MI LUNA INTERIOR🌛',
-    },
-}
-
-export const PACK = [
-  {
-    title: PLAN.MMV.WPS_NAME,
-    rows: [
-      {
-        id: PACK_ID.MMV_INTERCAMBIOS.ID,
-        title: MODALITY.INTERCAMBIOS,
-        description: 'Precio: S/. 120',
-      },
-      {
-        id: PACK_ID.MMV_SEMANA.ID,
-        title: 'MENÚ SEMANA',
-        description: 'Precio: S/. 200',
-
-      },
-      {
-        id: PACK_ID.MMV_MES.ID,
-        title: 'MENÚ MES',
-        description: 'Precio: S/. 400',
-
-      }
-    ]
-  },
-  {
-    title: PLAN.APLV.WPS_NAME,
-    rows: [
-      {
-        id: PACK_ID.APLV_INTERCAMBIOS.ID,
-        title: 'INTERCAMBIOS',
-        description: 'Precio: S/. 150',
-
-      },
-      {
-        id: PACK_ID.APLV_SEMANA.ID,
-        title: 'MENÚ SEMANA',
-        description: 'Precio: S/. 280',
-
-      },
-      {
-        id: PACK_ID.APLV_MES.ID,
-        title: 'MENÚ MES',
-        description: 'Precio: S/. 500',
-
-      }
-    ]
-  },
-  {
-    title: PLAN.MLI.WPS_NAME,
-    rows: [
-      {
-        id: PACK_ID.MLI_INTERCAMBIOS.ID,
-        title: 'INTERCAMBIOS',
-        description: 'Precio: S/. 150',
-
-      },
-      {
-        id: PACK_ID.MLI_SEMANA.ID,
-        title: 'MENÚ SEMANA',
-        description: 'Precio: S/. 280',
-
-      },
-      {
-        id: PACK_ID.MLI_MES.ID,
-        title: 'MENÚ MES',
-        description: 'Precio: S/. 500',
-
-      }
-    ]
-  }
-
-];
 
 
 
@@ -199,32 +63,17 @@ export const SCHUDULE_LIST = [
 
 export const STEPS = {
   INIT: '0',
-  EXPENSETYPE_SELECTED: '1',
+  CHOOSE_DATE_OPT: '1',
   DESCRIPTION_INSERTED: '2',
-  AMOUNT_INSERTED: '3',
-  DATE_SELECTED: '4',
-  CONFIRM_EXPENSE: '5',
-  NEW_EXPENSE: '6',
+  CHOOSE_HOUR_OPT: '3',
+  CHOOSE_PAYMENT_OPT: '4',
+  PROCESS_VOUCHER: '5',
+  GET_CONFIRM: '6',
+  DAY_SELECTED: '7',
+  DAY_NUMBER_SELECTED: '8',
 };
 
 // MENSAJES Y ID DE MENSAJES INTERACTIVOS
-
-export const TITLE_INT_BTN = {
-  INTRODUCTION_TEMPLATE_A1: 'Buscar cuarto 🛏️',
-  INTRODUCTION_TEMPLATE_A2: '⚕️ Soy Hotel',
-  RESET_TEMPLATE: 'Reset',
-  CONFIRMATION_ANSWER: 'Confirmar ✅',
-  TRY_AGAIN_ANSWER: 'Volver a intentar 👀',
-  CHOOSE_ANOTHER_ANSWER: 'Elegir otro 🔄',
-  CHOOSE_ANOTHER_DATE_ANSWER: 'Otra fecha 📅',
-  SELECT_PROVIDER: 'Reservar cuarto 🛒',
-  ACCEPT: 'Aceptar ✅',
-  GREETING: ['Hola', 'Necesito ayuda'],
-  ACCEPT_APPOINTMENT: 'Aceptar',
-  PAYMENTS_OPTIONS: ['Tarjeta 💳', 'Yape/Plin 📱', 'Efectivo'],
-  SUBMIT_VOUCHER: 'Listo',
-  PROVIDER_ACCEPT: 'Aceptar ✅',
-}
 
 
 export enum PAYMENTSTATUS {
@@ -246,7 +95,10 @@ export const BTN_ID = {
   CANCEL_GENERAL: 'cancel_general',
   PAYMENT_YAPE: 'yape_plin',
   CURRENT_DATE: 'current_date',
+  CURRENT_WEEK: 'current_week',
+  CURRENT_MONTH: 'current_month',
   DIFFERENT_DATE: 'different_date',
+  RESET: 'reset',
 }
 
 export const BTN_TITLE = {
@@ -255,6 +107,11 @@ export const BTN_TITLE = {
   CONFIRM_GENERAL: '✅ Confirmar',
   CANCEL_GENERAL: '❌ Cancelar',
   PAYMENT_YAPE: 'Yape/Plin 📱',
+  CURRENT_DATE: 'Hoy',
+  CURRENT_WEEK: 'Esta semana',
+  CURRENT_MONTH: 'Este mes',
+  DIFFERENT_DATE: 'Otra fecha',
+  RESET: 'Reset',
 }
 
 export const BTN_OPT_CONFIRM_DNI = [
@@ -289,13 +146,17 @@ export const BTN_OPT_PAYMENT = [
 
 ];
 
-export const BTN_OPT_CURRENT_DATE = [
+export const BTN_OPT_DATES = [
   {
     id: BTN_ID.CURRENT_DATE,
-    title: 'Hoy',
+    title: BTN_TITLE.CURRENT_DATE,
   },
   {
-    id: BTN_ID.DIFFERENT_DATE,
-    title: 'Otra fecha',
+    id: BTN_ID.CURRENT_WEEK,
+    title: BTN_TITLE.CURRENT_WEEK,
+  },
+  {
+    id: BTN_ID.CURRENT_MONTH,
+    title: BTN_TITLE.CURRENT_MONTH,
   },
 ];
