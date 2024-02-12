@@ -47,38 +47,78 @@ export class Utilities {
         const month = today.getMonth() + 1; // getMonth() devuelve un valor de 0 a 11, por lo que se suma 1
         return String(month).padStart(2, '0'); // Asegura que el mes siempre tenga dos dígitos
     }
-    
 
-    static generateOneSectionTemplate(menuTitle:string, items:any): InteractiveListSection[] {
-            return [
-                    {
-                            title: menuTitle,
-                            rows: items.map((item:any, index:any) => ({
-                                id: `${index}`,
-                                title: item.expenseType,
-                                description: `Límite: ${item.limit}`,
-                            })),
-                    }
-            ]
-        }
-    
-        static async isDatePast(fechaConsulta: string): Promise<boolean> {
-            // Obtener la hora actual considerando la zona horaria de Perú
-            const offsetPeru = -5; // UTC-5 para Perú
-            const nowUTC = new Date(new Date().toUTCString());
-            const ahoraPeru = new Date(nowUTC.setHours(nowUTC.getHours() + offsetPeru));
-        
-            // Formatear la fecha actual a YYYY-MM-DD para comparación
-            const fechaActual = ahoraPeru.toISOString().split('T')[0];
-        
-            // Convertir la fecha de consulta a formato YYYY-MM-DD para asegurar una comparación correcta
-            const [dia, mes, año] = fechaConsulta.split('/');
-            const fechaConsultaFormat = `${año}-${mes}-${dia}`;
-        
-            // Comparar si la fecha de consulta es anterior a la fecha actual
-            return fechaConsultaFormat < fechaActual;
-        }
-        
+
+    static generateOneSectionTemplate(menuTitle: string, items: any): InteractiveListSection[] {
+        return [
+            {
+                title: menuTitle,
+                rows: items.map((item: any, index: any) => ({
+                    id: `${item.rowHour}`,
+                    title: item.clientHour,
+                    description: item.normalHour,
+                    // description: `Límite: ${item.limit}`,
+                })),
+            }
+        ]
+    }
+
+    static async isDatePast(fechaConsulta: string): Promise<boolean> {
+        // Obtener la hora actual considerando la zona horaria de Perú
+        const offsetPeru = -5; // UTC-5 para Perú
+        const nowUTC = new Date(new Date().toUTCString());
+        const ahoraPeru = new Date(nowUTC.setHours(nowUTC.getHours() + offsetPeru));
+
+        // Formatear la fecha actual a YYYY-MM-DD para comparación
+        const fechaActual = ahoraPeru.toISOString().split('T')[0];
+
+        // Convertir la fecha de consulta a formato YYYY-MM-DD para asegurar una comparación correcta
+        const [dia, mes, año] = fechaConsulta.split('/');
+        const fechaConsultaFormat = `${año}-${mes}-${dia}`;
+
+        // Comparar si la fecha de consulta es anterior a la fecha actual
+        return fechaConsultaFormat < fechaActual;
+    }
+
+    static getTodayDate() {
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0'); // Adds a zero if needed to ensure it's two digits
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // getMonth() returns a value between 0 and 11, so add 1
+        const year = today.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
+    static getTomorrowDate() {
+        const today = new Date();
+        today.setDate(today.getDate() + 1); // Increment the day by 1
+        const day = String(today.getDate()).padStart(2, '0'); // Adds a zero if needed to ensure it's two digits
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // getMonth() returns a value between 0 and 11, so add 1
+        const year = today.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
+    static transformHours(hoursArray) {
+        return hoursArray.map(hour => {
+            // Calcula el equivalente en horas de 12 horas para 'clientHour' y 'normalHour'
+            const hour12 = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+
+            // Determina si es AM o PM para 'clientHour' y 'normalHour'
+            const amPm = hour >= 12 ? 'p.m' : 'a.m';
+
+            // Formatea las horas para 'normalHour' y 'clientHour'
+            const normalHour = `${String(hour).padStart(2, '0')}:00 ${amPm}`;
+            const clientHour = `${hour12}:00 ${amPm}`;
+
+            // Retorna el nuevo objeto con las propiedades formateadas
+            return {
+                normalHour,
+                clientHour,
+                rowHour: hour
+            };
+        });
+    }
+
+
 
 }
 

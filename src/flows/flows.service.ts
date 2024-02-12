@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BuilderTemplatesService } from 'src/builder-templates/builder-templates.service';
-import { BTN_ID, BTN_OPT_CONFIRM_DNI, BTN_OPT_CONFIRM_GENERAL, BTN_OPT_DATES, BTN_OPT_PAYMENT, MENU, NAME_TEMPLATES, STEPS } from 'src/context/helpers/constants';
+import { BTN_ID, BTN_OPT_CONFIRM_DNI, BTN_OPT_CONFIRM_GENERAL, BTN_OPT_DATES, BTN_OPT_PAYMENT, NAME_TEMPLATES, STEPS } from 'src/context/helpers/constants';
 import { Message } from 'src/context/entities/message.entity';
 import { UserService } from 'src/user/user.service';
 import { GeneralServicesService } from 'src/general-services/general-services.service';
@@ -33,8 +33,9 @@ export class FlowsService {
     const message1 = `Hola ${clientName},soy el bot asistente de reservas de La Plata, paro mi balón pero mi puesto es ayudarte a reservar una cancha de futbol.`;
     const template1 = this.builderTemplate.buildTextMessage(clientPhone,message1);
     await this.senderService.sendMessages(template1);
-    const message2 = 'Escoge uno de los botones de abajo para continuar';
+    const message2 = '¿Para cuando deseas reservar?';
     const template2 = this.builderTemplate.buildInteractiveButtonMessage(clientPhone,message2,BTN_OPT_DATES);
+    await this.senderService.sendMessages(template2);
     const template3 = this.builderTemplate.buildTextMessage(clientPhone,'*ESTO ES UN BOT DE PRUEBA DESARROLLADO POR THE FAMILY BOT \nNO ES UN CANAL OFICIAL DE DOERS, MAYOR INFORMACÓN DIRECTAMEN EN SUS RRSS*');
     await this.senderService.sendMessages(template3);
     ctx.step = STEPS.CHOOSE_DATE_OPT;
@@ -55,6 +56,7 @@ export class FlowsService {
   async listHoursFlow(ctx:Message ,messageEntry: IParsedMessage) {
     const clientPhone = messageEntry.clientPhone;
     const listHours = await this.googleSpreadsheetService.getAvailableSlotsForDate(ctx.date);
+    const parsedHours = Utilities.transformHours(listHours);
     if(listHours.length === 0) {
       const message = 'No hay horarios disponibles para la fecha seleccionada';
       const template = this.builderTemplate.buildTextMessage(clientPhone,message);
@@ -64,7 +66,7 @@ export class FlowsService {
     const headerText = 'Elige la hora que deseas reservar';
     const bodyText = 'Para escoger una hora, selecciona el botón de "Ver horarios"';
     const buttonText = 'Ver horarios';
-    const sections = Utilities.generateOneSectionTemplate('Lista de horarios',listHours); // Wrap sections inside an array
+    const sections = Utilities.generateOneSectionTemplate('Lista de horarios',parsedHours); // Wrap sections inside an array
     const template = this.builderTemplate.buildInteractiveListMessage(clientPhone,buttonText ,sections, headerText, bodyText);
     await this.senderService.sendMessages(template);
     ctx.step = STEPS.CHOOSE_HOUR_OPT;
@@ -87,6 +89,8 @@ export class FlowsService {
     const message = 'Realizar yape o plin al número 987654321 a nombre de La Plata y subir el comprobante de pago';
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
     await this.senderService.sendMessages(template);
+    ctx.step = STEPS.PROCESS_VOUCHER;
+    await this.ctxService.updateCtx(ctx._id, ctx);
   }
   
   async waitingPaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
@@ -105,11 +109,13 @@ export class FlowsService {
   async notifyPaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
     const clientPhone = messageEntry.clientPhone;
     const templateName:string = NAME_TEMPLATES.NOTIFY_PAYMENT;
+    ctx.amount = 100;
     const languageCode = 'es';
     const headerImageUrl = ctx.imageVoucher ? ctx.imageVoucher : null;
-    const bodyParameters = [ctx.clientName || 'NN',ctx.date, ctx.hourSelected, ctx.amount, ctx.clientName]
+    const bodyParameters = [ctx.clientName || 'NN',ctx.date, ctx.hourSelected, ctx.amount, ctx.clientPhone]
     const template = this.builderTemplate.buildTemplateMessage(clientPhone, templateName ,languageCode, headerImageUrl,bodyParameters);
     await this.senderService.sendMessages(template);
+    await this.ctxService.updateCtx(ctx._id, ctx);
   }
 
   async confirmMessageFlow(ctx:Message ,messageEntry: IParsedMessage) {
@@ -118,6 +124,7 @@ export class FlowsService {
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
     await this.senderService.sendMessages(template);
   }
+  
   
   
 

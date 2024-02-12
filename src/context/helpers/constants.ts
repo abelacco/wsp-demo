@@ -1,64 +1,8 @@
 import { Utilities } from "./utils";
 
-//DATA PROPIA DE LA APLICACION
-export const MENU = [
-  {
-    title: 'Menú',
-    rows: [
-      {
-        id: 'menu_0',
-        title: 'Información planes',
-      },
-      {
-        id: 'menu_2',
-        title: 'Adquiere tu plan',
-      },
-      {
-        id: 'menu_1',
-        title: 'Renovar mi plan',
-        description: '❌NO DISPONIBLE POR EL MOMENTO❌'
-      },
-
-    ]
-  }
-];
 
 
 
-
-
-
-
-export const SCHUDULE_LIST = [
-  {
-    id: '1',
-    title: '21/01/2024 10:00 am',
-  },
-  {
-    id: '2',
-    title: '21/01/2024 11:00 am',
-  },
-  {
-    id: '3',
-    title: '21/01/2024 12:00 am',
-  },
-  {
-    id: '4',
-    title: '22/01/2024 10:00 am',
-  },
-  {
-    id: '5',
-    title: '25/01/2024 10:00 am',
-  },
-  {
-    id: '6',
-    title: '25/01/2024 11:00 am',
-  },
-  {
-    id: '7',
-    title: ' 28/01/2024 10:00 am',
-  }
-];
 // Pasos de la conversación
 
 export const STEPS = {
@@ -107,7 +51,7 @@ export const BTN_TITLE = {
   CONFIRM_GENERAL: '✅ Confirmar',
   CANCEL_GENERAL: '❌ Cancelar',
   PAYMENT_YAPE: 'Yape/Plin 📱',
-  CURRENT_DATE: 'Hoy',
+  CURRENT_DATE: Utilities.getTodayDate(),
   CURRENT_WEEK: 'Esta semana',
   CURRENT_MONTH: 'Este mes',
   DIFFERENT_DATE: 'Otra fecha',
