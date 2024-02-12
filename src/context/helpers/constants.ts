@@ -68,9 +68,9 @@ export const STEPS = {
   CHOOSE_HOUR_OPT: '3',
   CHOOSE_PAYMENT_OPT: '4',
   PROCESS_VOUCHER: '5',
-  GET_CONFIRM: '6',
-  DAY_SELECTED: '7',
-  DAY_NUMBER_SELECTED: '8',
+  WAITING_CONFIRM_PAYMENT: '6',
+  DAY_WEEK_SELECTED: '7',
+  DAY_MONTH_INSERT: '8',
 };
 
 // MENSAJES Y ID DE MENSAJES INTERACTIVOS
@@ -84,7 +84,7 @@ export enum PAYMENTSTATUS {
 }
 
 export const NAME_TEMPLATES = {
-  NOTIFY_PAYMENT: 'new_payment',
+  NOTIFY_PAYMENT: 'new_payment_canchas',
   NEW_CONVERSATION: 'new_conversation',
 }
 

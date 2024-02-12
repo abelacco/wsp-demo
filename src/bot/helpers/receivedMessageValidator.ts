@@ -1,8 +1,7 @@
-import e from 'express';
 import { IParsedMessage } from '../entities/messageParsed';
 import { WSP_MESSAGE_TYPES } from 'src/common/constants';
 import { Message } from 'src/context/entities/message.entity';
-import { BTN_ID, PACK_ID, STEPS } from 'src/context/helpers/constants';
+import { BTN_ID, STEPS } from 'src/context/helpers/constants';
 
 
 
@@ -32,7 +31,7 @@ export const receivedMessageValidator = (
     case STEPS.CHOOSE_DATE_OPT: // Estoy esperando que selecciones un tipo de gasto
       if (isInteractiveMessage(entryMessage)) {
           if(hasSpecificContentId(entryMessage,BTN_ID.CURRENT_DATE)  ) {
-            return 'getDescriptionFlow';
+            return 'dateChoosedFlow';
           } else if(hasSpecificContentId(entryMessage,BTN_ID.CURRENT_WEEK) ) {
             return 'getDifferentDateFlow';
           }
@@ -43,19 +42,24 @@ export const receivedMessageValidator = (
       return 'NOT_VALID';
     case STEPS.CHOOSE_HOUR_OPT: // Estoy esperando una confirmación de seguir con la compra
         if(isInteractiveMessage(entryMessage)) {
-          return 'getAmountFlow';
+          return 'paymentOptionFlow';
         }
         return 'NOT_VALID';
     case STEPS.CHOOSE_PAYMENT_OPT: // Estoy esperando que ingreses o confirmes tu DNI
-      if (isTextMessage(entryMessage)){
-        return 'getDateFlow';
+      if (isInteractiveMessage(entryMessage)){
+        return 'yapeFlow';
       
       }
         return 'NOT_VALID';
-    case STEPS.DATE_SELECTED: // Estoy esperando que selecciones un paquete
-      if (isInteractiveMessage(entryMessage)) {
-        if(hasSpecificContentId(entryMessage,BTN_ID.CURRENT_DATE) ) {
-          return 'confirmExpenseFlow';
+    case STEPS.PROCESS_VOUCHER: // Estoy una imagen del voucher
+      if (isImageMessage(entryMessage)) {
+        return 'waitingConfirmPaymentFlow';
+      }
+      return 'NOT_VALID';
+    case STEPS.WAITING_CONFIRM_PAYMENT: // Estoy esperando que selecciones un paquete
+      if (isButtonMessage(entryMessage)) {
+        if(hasSpecificTitle(entryMessage,'CONFIRMAR') ) {
+          return 'confirmMessageFlow';
         } 
         else {
           return 'getDifferentDateFlow';
@@ -64,20 +68,6 @@ export const receivedMessageValidator = (
         return 'confirmExpenseFlow';
       }
       return 'NOT_VALID';
-    case STEPS.CONFIRM_EXPENSE:
-      if(isInteractiveMessage(entryMessage)) {
-        if(hasSpecificContentId(entryMessage,BTN_ID.CONFIRM_GENERAL) ) {
-          return 'createExpenseFlow';
-        }else {
-          return 'resetExpenseFlow';
-        }
-      } else {
-        return 'NOT_VALID';
-      }  
-    case STEPS.NEW_EXPENSE:
-      if(isTextMessage(entryMessage)) {
-        return 'listExpensesFlow';
-      }
     default:
       return 'NOT_VALID';
   }

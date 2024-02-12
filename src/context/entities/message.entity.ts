@@ -42,15 +42,10 @@ export class Message extends Document {
     })
     attempts: number;
 
-    @Prop({
-        type: String,
-        enum: PAYMENTSTATUS,
-        default: PAYMENTSTATUS.PENDING
-    })
+    @Prop({})
     paymentStatus: string;
 
-    @Prop({
-    })
+    @Prop({})
     imageVoucher: string;
 
 }

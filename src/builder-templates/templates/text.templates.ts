@@ -1,4 +1,4 @@
-import { MENU, SCHUDULE_LIST, TITLE_INT_BTN } from 'src/context/helpers/constants';
+import { MENU, SCHUDULE_LIST } from 'src/context/helpers/constants';
 
 
 export class TextTemplates {
@@ -241,44 +241,44 @@ export class TextTemplates {
         };
     }
 
-    static generatePaymentOptions(phone: string) {
-        return {
-            messaging_product: 'whatsapp',
-            to: phone,
-            type: 'interactive',
-            interactive: {
-                type: 'button',
-                body: {
-                    text: 'Y ya para terminar, escoge tu medio de pago 🙌',
-                },
-                action: {
-                    buttons: [
-                        {
-                            type: 'reply',
-                            reply: {
-                                id: 'UNIQUE_BUTTON_ID_1',
-                                title: TITLE_INT_BTN.PAYMENTS_OPTIONS[0],
-                            },
-                        },
-                        {
-                          type: 'reply',
-                          reply: {
-                            id: 'UNIQUE_BUTTON_ID_2',
-                            title: TITLE_INT_BTN.PAYMENTS_OPTIONS[1],
-                          },
-                        },
-                        {
-                            type: 'reply',
-                            reply: {
-                              id: 'UNIQUE_BUTTON_ID_3',
-                              title: TITLE_INT_BTN.PAYMENTS_OPTIONS[2],
-                            },
-                          }
-                    ],
-                },
-            },
-        };
-    }
+    // static generatePaymentOptions(phone: string) {
+    //     return {
+    //         messaging_product: 'whatsapp',
+    //         to: phone,
+    //         type: 'interactive',
+    //         interactive: {
+    //             type: 'button',
+    //             body: {
+    //                 text: 'Y ya para terminar, escoge tu medio de pago 🙌',
+    //             },
+    //             action: {
+    //                 buttons: [
+    //                     {
+    //                         type: 'reply',
+    //                         reply: {
+    //                             id: 'UNIQUE_BUTTON_ID_1',
+    //                             title: TITLE_INT_BTN.PAYMENTS_OPTIONS[0],
+    //                         },
+    //                     },
+    //                     {
+    //                       type: 'reply',
+    //                       reply: {
+    //                         id: 'UNIQUE_BUTTON_ID_2',
+    //                         title: TITLE_INT_BTN.PAYMENTS_OPTIONS[1],
+    //                       },
+    //                     },
+    //                     {
+    //                         type: 'reply',
+    //                         reply: {
+    //                           id: 'UNIQUE_BUTTON_ID_3',
+    //                           title: TITLE_INT_BTN.PAYMENTS_OPTIONS[2],
+    //                         },
+    //                       }
+    //                 ],
+    //             },
+    //         },
+    //     };
+    // }
 
     static generateTextAccount(phone: string) {
         return {

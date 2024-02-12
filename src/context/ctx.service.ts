@@ -23,7 +23,7 @@ export class CtxService {
     return message;
   }
 
-  async updateCtx(id:string,ctx:Message): Promise<Message> {
+  async updateCtx(id:string,ctx:any): Promise<Message> {
     //Busca mensaje por número de cliente
     const updatedMessage = await this._db.updateMessage(id,ctx);
 
