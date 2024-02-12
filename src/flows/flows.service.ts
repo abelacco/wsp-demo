@@ -88,7 +88,19 @@ export class FlowsService {
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
     await this.senderService.sendMessages(template);
   }
-
+  
+  async waitingPaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    const url = await this.getWhatsappMediaUrl({imageId: messageEntry.content});
+    const cloudinaryUrl =await this.generalService.uploadFromURL(url);
+    ctx.imageVoucher = cloudinaryUrl.url;
+    await this.notifyPaymentFlow(ctx,messageEntry);
+    const clientPhone = messageEntry.clientPhone;
+    const message = 'Estamos verificando tu comprobante de pago, esto tomará unos minutos por favor! 🙌';
+    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
+    await this.senderService.sendMessages(template);
+    ctx.step = STEPS.CONFIRM_PAYMENT;
+    await this.ctxService.updateCtx(ctx._id, ctx);
+  }
   
 
   // async listExpensesFlow(ctx:Message ,messageEntry: IParsedMessage) {

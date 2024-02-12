@@ -49,6 +49,10 @@ export class Message extends Document {
     })
     paymentStatus: string;
 
+    @Prop({
+    })
+    imageVoucher: string;
+
 }
 
 
