@@ -11,6 +11,10 @@ export class Message extends Document {
 
     @Prop({
     })
+    rowHourSelected: string;
+
+    @Prop({
+    })
     paymentOptionSelected: string;
 
     @Prop({

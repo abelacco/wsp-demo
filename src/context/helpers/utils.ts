@@ -1,5 +1,5 @@
 import { InteractiveListSection } from "src/builder-templates/interface";
-
+import * as moment from 'moment';
 export class Utilities {
 
     // static findPlanDetails(pack_id: string, modality: string) {
@@ -63,6 +63,20 @@ export class Utilities {
         ]
     }
 
+    static generateWeekListTemplate(menuTitle: string, items: any): InteractiveListSection[] {
+        return [
+            {
+                title: menuTitle,
+                rows: items.map((item: any, index: any) => ({
+                    id: `${item.id}`,
+                    title: `${item.title} ${item.id}`,
+                    // description: item.normalHour,
+                    // description: `Límite: ${item.limit}`,
+                })),
+            }
+        ]
+    }
+
     static async isDatePast(fechaConsulta: string): Promise<boolean> {
         // Obtener la hora actual considerando la zona horaria de Perú
         const offsetPeru = -5; // UTC-5 para Perú
@@ -118,7 +132,60 @@ export class Utilities {
         });
     }
 
+    // async generateWeekButtons() {
+    //     const today = new Date();
+    //     const day = today.getDay();
+    //     const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    //     const week = [];
 
+    //     for (let i = 0; i < 7; i++) {
+    //         const nextDay = new Date(today);
+    //         nextDay.setDate(today.getDate() + i);
+    //         const dayNumber = nextDay.getDate();
+    //         const dayName = days[nextDay.getDay()];
+    //         week.push({ id: dayNumber, title: dayName });
+    //     }
+
+    //     return week;
+    // }
+    static generateWeekButtons() {
+        const today = moment().startOf('day'); // Comienza al inicio del día actual
+        const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const week = [];
+    
+        for (let i = 0; i < 7; i++) {
+            const nextDay = moment(today).add(i, 'days');
+    
+            // Solo añade el día si es hoy o está en el futuro
+            if (nextDay.isSameOrAfter(today, 'day')) {
+                const dayNumber = nextDay.format('DD/MM/YYYY'); // Formatea la fecha como DD/MM/YYYY
+                const dayName = days[nextDay.day()];
+                week.push({ id: dayNumber, title: dayName });
+            }
+        }
+    
+        return week;
+    }
+
+
+static getDateFromDay(day: string): string {
+  // Asume que el día es del mes y año actuales
+  const formattedDay = day.padStart(2, '0'); // Asegura que el día tenga dos dígitos
+  const date = moment().date(parseInt(formattedDay)).format('DD/MM/YYYY');
+
+  return date;
+}
+
+static getLatestTenItems(array) {
+    // Si el array tiene 10 o menos elementos, lo devuelve tal cual
+    if (array.length <= 10) {
+      return array;
+    }
+    // Si el array tiene más de 10 elementos, devuelve los últimos 10
+    return array.slice(-10);
+  }
+
+    
 
 }
 

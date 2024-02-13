@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BuilderTemplatesService } from 'src/builder-templates/builder-templates.service';
-import { BTN_ID, BTN_OPT_CONFIRM_DNI, BTN_OPT_CONFIRM_GENERAL, BTN_OPT_DATES, BTN_OPT_PAYMENT, NAME_TEMPLATES, STEPS } from 'src/context/helpers/constants';
+import { BTN_ID, BTN_OPT_CONFIRM_DNI, BTN_OPT_CONFIRM_GENERAL, BTN_OPT_DATES, BTN_OPT_PAYMENT, NAME_TEMPLATES, PAYMENTSTATUS, STEPS } from 'src/context/helpers/constants';
 import { Message } from 'src/context/entities/message.entity';
 import { UserService } from 'src/user/user.service';
 import { GeneralServicesService } from 'src/general-services/general-services.service';
@@ -10,7 +10,7 @@ import { CtxService } from 'src/context/ctx.service';
 import { SenderService } from 'src/sender/sender.service';
 import { Utilities } from 'src/context/helpers/utils';
 import { GoogleSpreadsheetService } from 'src/google-spreadsheet/google-spreadsheet.service';
-import { Expense } from 'src/google-spreadsheet/entities';
+import { Book } from 'src/google-spreadsheet/entities';
 
 @Injectable()
 export class FlowsService {
@@ -42,9 +42,44 @@ export class FlowsService {
     await this.ctxService.updateCtx(ctx._id, ctx);
   }
 
+  async weekSelectedFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    const clientPhone = messageEntry.clientPhone;
+    const headerText = 'Elige el día de la semana';
+    const bodyText = 'Para escoger una fecha, selecciona el botón de "Ver semana"';
+    const buttonText = 'Ver semana';
+    const sections = Utilities.generateWeekListTemplate('Días de la semana',Utilities.generateWeekButtons());
+    const template = this.builderTemplate.buildInteractiveListMessage(clientPhone,buttonText ,sections, headerText, bodyText);
+    await this.senderService.sendMessages(template);
+    ctx.step = STEPS.DAY_WEEK_SELECTED;
+    await this.ctxService.updateCtx(ctx._id, ctx);
+  }
+
+  async monthSelectedFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    const clientPhone = messageEntry.clientPhone;
+    const message = 'Ingresa el día que deseas reservar. *Ejemplo*: 1,01,12';
+    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
+    await this.senderService.sendMessages(template);
+    ctx.step = STEPS.DAY_MONTH_INSERT;
+    await this.ctxService.updateCtx(ctx._id, ctx);
+  }
+
+  async daySelectedFlow(ctx:Message ,messageEntry: IParsedMessage) {
+    const clientPhone = messageEntry.clientPhone;
+    ctx.date = messageEntry.content.id;
+    const message = `Has seleccionado el día ${ctx.date}, ahora selecciona la hora`;
+    const template = this.builderTemplate.buildTextMessage(clientPhone,message);
+    await this.senderService.sendMessages(template);
+    await this.ctxService.updateCtx(ctx._id, ctx);
+    await this.listHoursFlow(ctx,messageEntry);
+  }
+
   async dateChoosedFlow(ctx:Message ,messageEntry: IParsedMessage) {
     const clientPhone = messageEntry.clientPhone;
-    ctx.date = messageEntry.content.title;
+    if(messageEntry.content.id){
+      ctx.date = messageEntry.content.id;
+    } else {
+      ctx.date = Utilities.getDateFromDay(messageEntry.content);
+    }
     const message = `Has seleccionado la fecha ${ctx.date}, ahora selecciona la hora`;
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
     await this.senderService.sendMessages(template);
@@ -57,6 +92,7 @@ export class FlowsService {
     const clientPhone = messageEntry.clientPhone;
     const listHours = await this.googleSpreadsheetService.getAvailableSlotsForDate(ctx.date);
     const parsedHours = Utilities.transformHours(listHours);
+    const selectFirstTen = Utilities.getLatestTenItems(parsedHours);
     if(listHours.length === 0) {
       const message = 'No hay horarios disponibles para la fecha seleccionada';
       const template = this.builderTemplate.buildTextMessage(clientPhone,message);
@@ -66,7 +102,7 @@ export class FlowsService {
     const headerText = 'Elige la hora que deseas reservar';
     const bodyText = 'Para escoger una hora, selecciona el botón de "Ver horarios"';
     const buttonText = 'Ver horarios';
-    const sections = Utilities.generateOneSectionTemplate('Lista de horarios',parsedHours); // Wrap sections inside an array
+    const sections = Utilities.generateOneSectionTemplate('Lista de horarios',selectFirstTen); // Wrap sections inside an array
     const template = this.builderTemplate.buildInteractiveListMessage(clientPhone,buttonText ,sections, headerText, bodyText);
     await this.senderService.sendMessages(template);
     ctx.step = STEPS.CHOOSE_HOUR_OPT;
@@ -75,6 +111,7 @@ export class FlowsService {
 
   async paymentOptionFlow(ctx:Message ,messageEntry: IParsedMessage) {
     ctx.hourSelected = messageEntry.content.title;
+    ctx.rowHourSelected = messageEntry.content.id;
     const clientPhone = messageEntry.clientPhone;
     const message = 'Selecciona el método de pago';
     const template = this.builderTemplate.buildInteractiveButtonMessage(clientPhone,message,BTN_OPT_PAYMENT);
@@ -108,6 +145,7 @@ export class FlowsService {
 
   async notifyPaymentFlow(ctx:Message ,messageEntry: IParsedMessage) {
     const clientPhone = messageEntry.clientPhone;
+    ctx.paymentStatus = PAYMENTSTATUS.WAITING;
     const templateName:string = NAME_TEMPLATES.NOTIFY_PAYMENT;
     ctx.amount = 100;
     const languageCode = 'es';
@@ -120,15 +158,29 @@ export class FlowsService {
 
   async confirmMessageFlow(ctx:Message ,messageEntry: IParsedMessage) {
     const clientPhone = messageEntry.clientPhone;
-    const message = 'Tu reserva ha sido confirmada';
+    const book = new Book(ctx);
+    ctx.paymentStatus = PAYMENTSTATUS.ACCEPTED;
+    const message = 'Tu reserva ha sido confirmada para el día '+ctx.date+' a las '+ctx.hourSelected+' 🎉';
     const template = this.builderTemplate.buildTextMessage(clientPhone,message);
     await this.senderService.sendMessages(template);
+    await this.googleSpreadsheetService.insertData(0,book);
+    this.resetCtx(ctx);
+    await this.ctxService.updateCtx(ctx._id, ctx);
   }
   
   
-  
-
-
+   resetCtx(ctx:Message) {
+    ctx.hourSelected = '';
+    ctx.rowHourSelected = '';
+    ctx.paymentOptionSelected = '';
+    ctx.date = '';
+    ctx.amount = 0;
+    ctx.step = STEPS.INIT;
+    ctx.attempts = 0;
+    ctx.paymentStatus = '';
+    ctx.imageVoucher = '';
+    return ctx;
+  }
 
    async getWhatsappMediaUrl({ imageId }: { imageId: string }) {
     const getImage = await axios.get(

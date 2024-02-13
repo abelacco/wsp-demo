@@ -33,10 +33,10 @@ export const receivedMessageValidator = (
           if(hasSpecificContentId(entryMessage,BTN_ID.CURRENT_DATE)  ) {
             return 'dateChoosedFlow';
           } else if(hasSpecificContentId(entryMessage,BTN_ID.CURRENT_WEEK) ) {
-            return 'getDifferentDateFlow';
+            return 'weekSelectedFlow';
           }
           else {
-            return 'NOT_VALID';
+            return 'monthSelectedFlow';
           }
       }
       return 'NOT_VALID';
@@ -53,7 +53,7 @@ export const receivedMessageValidator = (
         return 'NOT_VALID';
     case STEPS.PROCESS_VOUCHER: // Estoy una imagen del voucher
       if (isImageMessage(entryMessage)) {
-        return 'waitingConfirmPaymentFlow';
+        return 'waitingPaymentFlow';
       }
       return 'NOT_VALID';
     case STEPS.WAITING_CONFIRM_PAYMENT: // Estoy esperando que selecciones un paquete
@@ -66,6 +66,16 @@ export const receivedMessageValidator = (
         }
       } else if(isTextMessage(entryMessage)) {
         return 'confirmExpenseFlow';
+      }
+      return 'NOT_VALID';
+    case STEPS.DAY_WEEK_SELECTED: // Estoy esperando que seleeciones un dia de la semana
+      if (isInteractiveMessage(entryMessage)) {
+        return 'dateChoosedFlow';
+      }
+      return 'NOT_VALID';
+    case STEPS.DAY_MONTH_INSERT: // Estoy esperando que ingreses una fecha
+      if (isTextMessage(entryMessage)) {
+        return 'dateChoosedFlow';
       }
       return 'NOT_VALID';
     default:
