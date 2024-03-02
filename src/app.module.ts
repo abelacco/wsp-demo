@@ -14,6 +14,8 @@ import { GeneralServicesModule } from './general-services/general-services.modul
 import { UserModule } from './user/user.module';
 import { BotModule } from './bot/bot.module';
 import { GoogleSpreadsheetModule } from './google-spreadsheet/google-spreadsheet.module';
+import { AuthModule } from './auth/auth.module';
+import { GoogleCalendarModule } from './google-calendar/google-calendar.module';
 
 @Module({
   imports: [
